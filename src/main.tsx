@@ -5,6 +5,7 @@ import Root from "./routes/root"
 import Typography from "typography"
 import { action as rootAction, loader as rootLoader } from "./routes/root"
 import Entry, { loader as entryLoader } from "./routes/entry"
+import ErrorPage from "./error-page"
 
 const typography = new Typography({
   baseFontSize: `18px`,
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
     element: <Root />,
     action: rootAction,
     loader: rootLoader,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: `entries/:entryId`,
