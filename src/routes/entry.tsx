@@ -7,14 +7,15 @@ import useFileSync from "@kylemathews-test/yfs-react"
 import useInterval from "../use-interval"
 import { awareness, rootDoc } from "../doc-factory"
 import { entries } from "../doc-factory"
+import { subtext } from "./entry.css"
 
-export async function loader({ params }) {
-  if (entries.has(params.entryId)) {
-    return { entry: entries.get(params.entryId) }
-  } else {
-    throw new Response(`Not Found`, { status: 404 })
-  }
-}
+// export async function loader({ params }) {
+// if (entries.has(params.entryId)) {
+// return { entry: entries.get(params.entryId) }
+// } else {
+// throw new Response(`Not Found`, { status: 404 })
+// }
+// }
 
 const doc = new Y.Doc()
 console.log({ doc })
@@ -25,10 +26,6 @@ function LogEntryBase(props) {
   console.log({ entryId })
   const entry = entries.get(entryId)
   console.log(entry.toJSON())
-  const count = entry
-    .get(`count`)
-    .toArray()
-    .reduce((a, b) => a + b, 0)
   const [, setRender] = useState()
   const title = entry.get(`title`).toString()
   console.log({ title })
@@ -50,24 +47,12 @@ function LogEntryBase(props) {
   // useInterval(sync, isWritePermissionGranted ? 5000 : null)
 
   useEffect(() => {
-    // array of numbers which produce a sum
-    const yarray = entry.get(`count`)
-    const title = entry.get(`title`)
-    const body = entry.get(`body`)
-    console.log({ yarray, title, body })
-
-    function titleObserve(event) {
+    function entryObserve(event) {
       console.log({ event })
       setRender(Math.random())
     }
-    title.observe(titleObserve)
+    entry.observeDeep(entryObserve)
 
-    // observe changes of the sum
-    // TODO convert to do observeDeep of the entire map and ignore body changes.
-    yarray.observe((event) => {
-      setRender(Math.random())
-    })
-    yarray.push([1])
     const editor = monaco.editor.create(
       document.getElementById(`body-editor`),
       {
@@ -115,32 +100,35 @@ function LogEntryBase(props) {
 
     // Bind Yjs to the editor model
     const monacoBinding = new MonacoBinding(
-      body,
+      entry.get(`body`),
       editor.getModel(),
       new Set([editor]),
       awareness
     )
 
-    config.current = {
-      entry,
-      yarray,
-      title,
-      // webRTCProvider,
-    }
     return () => {
       // webRTCProvider?.disconnect()
       // webRTCProvider?.destroy()
       // doc?.destroy()
-      title.unobserve(titleObserve)
+      entry.unobserveDeep(entryObserve)
       monacoBinding.destroy()
       editor.dispose()
     }
   }, [entry])
 
-  console.log({ title })
   return (
     <div className="LogEntry">
-      <h1>Entry {entry.get(`id`)}</h1>
+      <h1>
+        Entry: {entry.get(`type`)} [
+        {entry.get(`categories`).toArray().join(`,`)}]
+      </h1>
+      <h3 className={subtext}>
+        created:{` `}
+        {new Date(entry.get(`created_at`)).toLocaleDateString()}
+        {`—`}
+        {new Date(entry.get(`created_at`)).toLocaleTimeString()}
+      </h3>
+
       <button
         onClick={() => {
           setRootDirectory(true)
@@ -148,7 +136,6 @@ function LogEntryBase(props) {
       >
         Select folder
       </button>
-
       <h2>Title</h2>
       <input
         type="text"
@@ -165,14 +152,6 @@ function LogEntryBase(props) {
       <br />
       <h2>Body</h2>
       <div id="body-editor" />
-      <button
-        onClick={() => {
-          console.log({ config })
-          config.current?.yarray.push([1])
-        }}
-      >
-        count is {count}
-      </button>
     </div>
   )
 }
