@@ -59,6 +59,19 @@ app.post(`/verify`, async function (req, res) {
 
     const message = new SiweMessage(req.body.message)
     const fields = await message.validate(req.body.signature)
+    console.log(`checking address`, process.env.ALLOWED_ADDRESSES, fields)
+
+    // If allowed wallet addresses is set, then validate agains that.
+    if (process.env.ALLOWED_ADDRESSES) {
+      console.log(`checking address`, process.env.ALLOWED_ADDRESSES, fields)
+      if (!process.env.ALLOWED_ADDRESSES.split(`,`).includes(fields.address)) {
+        res.status(401).json({
+          message: `Invalid wallet address`,
+        })
+        return
+      }
+    }
+
     if (fields.nonce !== req.session.nonce) {
       console.log(req.session)
       res.status(422).json({
@@ -91,6 +104,7 @@ app.post(`/verify`, async function (req, res) {
 })
 
 app.get(`/personal_information`, function (req, res) {
+  console.log(req.session)
   if (!req.session.siwe) {
     res.status(401).json({ message: `You have to first sign_in` })
     return
@@ -100,6 +114,27 @@ app.get(`/personal_information`, function (req, res) {
   res.send(
     `You are authenticated and your address is: ${req.session.siwe.address}`
   )
+})
+
+app.get(`/logout`, function (req, res, next) {
+  console.log(`/logout`)
+  console.log(req.session)
+  // clear the user from the session object and save.
+  // this will ensure that re-using the old session id
+  // does not have a logged in user
+  req.session.siwe = null
+  req.session.nonce = null
+  req.session.save(function (err) {
+    console.log({ err })
+    if (err) next(err)
+
+    // regenerate the session, which is good practice to help
+    // guard against forms of session fixation
+    req.session.regenerate(function (err) {
+      if (err) next(err)
+      res.send(`logged out`)
+    })
+  })
 })
 
 // Serve static assets.

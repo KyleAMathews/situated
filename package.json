@@ -51,7 +51,7 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "dev": "concurrently 'vite --host' 'nodemon src/server.js'",
+    "dev": "ALLOWED_ADDRESSES=0xeBCaAC47e92207cda75dd53C234815279DeD5f5C concurrently 'vite --host' 'nodemon src/server.js'",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "preview": "vite preview",
     "start": "NODE_ENV=production node src/server.js"
