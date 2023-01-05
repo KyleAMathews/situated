@@ -21,6 +21,8 @@ COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/server.js ./src/server.js
+COPY --from=builder /app/src/y-socket-server.cjs ./src/y-socket-server.cjs
+COPY --from=builder /app/src/callback.cjs ./src/callback.cjs
 
 ENV NODE_ENV=production
 EXPOSE 4000
