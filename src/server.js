@@ -10,6 +10,18 @@ import ySocket from "./y-socket-server.cjs"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+import { Low } from "lowdb"
+import { JSONFile } from "lowdb/node"
+import lowdbStore from "connect-lowdb"
+
+const LowdbStore = lowdbStore(Session)
+
+const file = path.join(__dirname, `../.cache/db.json`)
+
+// Configure lowdb to write to JSONFile
+const adapter = new JSONFile(file)
+const db = new Low(adapter)
+
 const app = express()
 app.use(express.json())
 app.use(
@@ -25,6 +37,7 @@ const sessionParser = Session({
   resave: true,
   saveUninitialized: true,
   cookie: { secure: false, sameSite: true },
+  store: new LowdbStore({ db }),
 })
 
 app.use(sessionParser)

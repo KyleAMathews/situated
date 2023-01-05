@@ -13,6 +13,7 @@ specifiers:
   '@vitejs/plugin-react': ^3.0.0
   buffer: ^6.0.3
   concurrently: ^7.6.0
+  connect-lowdb: ^2.0.0
   cors: ^2.8.5
   eslint: ^8.31.0
   eslint-config-prettier: ^8.5.0
@@ -23,6 +24,8 @@ specifiers:
   express: ^4.18.2
   express-session: ^1.17.3
   lib0: ^0.2.58
+  lowdb: ^5.0.5
+  lowdb-session-store: ^1.1.1
   monaco-editor: ^0.34.1
   nanoid: ^4.0.0
   nodemon: ^2.0.20
@@ -43,10 +46,13 @@ specifiers:
   yjs: ^13.5.44
 
 dependencies:
+  connect-lowdb: 2.0.0
   cors: 2.8.5
   express: 4.18.2
   express-session: 1.17.3
   lib0: 0.2.58
+  lowdb: 5.0.5
+  lowdb-session-store: 1.1.1
   siwe: 1.1.6_ethers@5.7.2
   ws: 8.11.0
   y-webrtc: 10.2.3
@@ -2355,6 +2361,11 @@ packages:
       yargs: 17.6.2
     dev: true
 
+  /connect-lowdb/2.0.0:
+    resolution: {integrity: sha512-pJyJA3czPPfbsdmJ3vrc5bXlehZwXacRh3nK0PDrHnCIKHvBUR6cuydSZNlEShKi/8EwzOVQfOA4RvRnOFBBKA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
   /console-polyfill/0.1.2:
     resolution: {integrity: sha512-oHLGQmf0q2yuuqfTXuzAB5UMqgPH1cHdwLkjfCqRTG2eupc52jbXT1OtOlREv+yXmXRi3wqywAevz3qMSk90Hg==}
     dev: true
@@ -3948,6 +3959,17 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
+  /lowdb-session-store/1.1.1:
+    resolution: {integrity: sha512-JiAdHTN9rBVaeHV8eZO1k+oxmtqNfAxPb75UhrfpTrOFcXOEQplKSapqFQ5u0gM4DpC8PqoU3TkPsDLwSWfEjA==}
+    dev: false
+
+  /lowdb/5.0.5:
+    resolution: {integrity: sha512-7EWKmIMhNKA8TXFhL8t0p6N2LC53l3ZqsWQGSksGhhjrcms9rbKlyrAh2PzSGK5v0KPJ2W5VItBnC3NDRzOnzQ==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      steno: 3.0.0
+    dev: false
+
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
     dependencies:
@@ -4943,6 +4965,11 @@ packages:
   /statuses/2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /steno/3.0.0:
+    resolution: {integrity: sha512-uZtn7Ht9yXLiYgOsmo8btj4+f7VxyYheMt8g6F1ANjyqByQXEE2Gygjgenp3otHH1TlHsS4JAaRGv5wJ1wvMNw==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /stream-browserify/3.0.0:
