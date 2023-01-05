@@ -24,6 +24,7 @@ specifiers:
   express: ^4.18.2
   express-session: ^1.17.3
   lib0: ^0.2.58
+  lodash.debounce: ^4.0.8
   lowdb: ^5.0.5
   lowdb-session-store: ^1.1.1
   monaco-editor: ^0.34.1
@@ -50,6 +51,7 @@ dependencies:
   express: 4.18.2
   express-session: 1.17.3
   lib0: 0.2.58
+  lodash.debounce: 4.0.8
   lowdb: 5.0.5
   lowdb-session-store: 1.1.1
   siwe: 1.1.6_ethers@5.7.2
@@ -3932,7 +3934,6 @@ packages:
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
-    dev: true
 
   /lodash.isnumber/3.0.3:
     resolution: {integrity: sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==}
