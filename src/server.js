@@ -6,7 +6,7 @@ import Session from "express-session"
 import { generateNonce, ErrorTypes, SiweMessage } from "siwe"
 import { fileURLToPath } from "url"
 import ySocket from "./y-socket-server.cjs"
-import fs from "fx-extra"
+import fs from "fs-extra"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
