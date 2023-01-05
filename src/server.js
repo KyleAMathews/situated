@@ -1,7 +1,12 @@
 import cors from "cors"
+import path from "path"
 import express from "express"
 import Session from "express-session"
 import { generateNonce, ErrorTypes, SiweMessage } from "siwe"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const app = express()
 app.use(express.json())
@@ -82,6 +87,20 @@ app.get(`/personal_information`, function (req, res) {
   )
 })
 
-app.listen(3000, () => {
-  console.log(`API listening on port 3000`)
+// Serve static assets.
+app.use(`/`, express.static(path.join(__dirname, `../dist`)))
+
+// handle every other route with index.html, which will contain
+// a script tag to your application's JavaScript file(s).
+app.get(`*`, function (request, response) {
+  response.sendFile(path.resolve(__dirname, `../dist/index.html`))
+})
+
+let port = 3000
+if (process.env.NODE_ENV === `production`) {
+  port = 4000
+}
+
+app.listen(port, () => {
+  console.log(`API listening on port ${port}`)
 })

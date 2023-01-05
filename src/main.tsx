@@ -41,7 +41,10 @@ const wagmiClient = createClient({
   provider,
 })
 
-const BACKEND_ADDR = new URL(`http://${location.hostname}:3000`).href
+const port = import.meta.env.PROD ? location.port : `3000`
+const url = `${location.protocol}://${location.hostname}:${port}`
+console.log({ port, importy: import.meta, url })
+const BACKEND_ADDR = new URL(`${location.protocol}//${location.hostname}:${port}`).href
 
 function Auth({ children }) {
   console.log({ children })
