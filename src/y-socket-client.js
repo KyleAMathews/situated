@@ -1,3 +1,4 @@
+// Forked from https://github.com/yjs/y-websocket/blob/master/src/y-websocket.js
 /**
  * @module provider/websocket
  */

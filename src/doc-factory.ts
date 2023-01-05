@@ -1,6 +1,6 @@
 import * as Y from "yjs"
 // import { WebrtcProvider } from "y-webrtc"
-import { WebsocketProvider } from "y-websocket"
+import { WebsocketProvider } from "./y-socket-client"
 import * as awarenessProtocol from "y-protocols/awareness.js"
 import { nanoid } from "nanoid"
 
