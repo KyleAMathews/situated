@@ -6,6 +6,7 @@ import Session from "express-session"
 import { generateNonce, ErrorTypes, SiweMessage } from "siwe"
 import { fileURLToPath } from "url"
 import ySocket from "./y-socket-server.cjs"
+import fs from "fx-extra"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -17,6 +18,7 @@ import lowdbStore from "connect-lowdb"
 const LowdbStore = lowdbStore(Session)
 
 const file = path.join(__dirname, `../.cache/db.json`)
+fs.ensureDirSync(path.dirname(file))
 
 // Configure lowdb to write to JSONFile
 const adapter = new JSONFile(file)

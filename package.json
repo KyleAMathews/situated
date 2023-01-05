@@ -6,6 +6,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "fs-extra": "^11.1.0",
     "lib0": "^0.2.58",
     "lodash.debounce": "^4.0.8",
     "lowdb": "^5.0.5",
