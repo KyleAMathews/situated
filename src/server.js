@@ -1,9 +1,11 @@
 import cors from "cors"
 import path from "path"
 import express from "express"
+import { WebSocketServer } from "ws"
 import Session from "express-session"
 import { generateNonce, ErrorTypes, SiweMessage } from "siwe"
 import { fileURLToPath } from "url"
+import ySocket from "./y-socket-server.cjs"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -17,15 +19,15 @@ app.use(
   })
 )
 
-app.use(
-  Session({
-    name: `siwe-quickstart`,
-    secret: `siwe-quickstart-secret`,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false, sameSite: true },
-  })
-)
+const sessionParser = Session({
+  name: `life-logger`,
+  secret: `siwe-quickstart-secret`,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false, sameSite: true },
+})
+
+app.use(sessionParser)
 
 app.get(`/nonce`, async function (req, res) {
   req.session.nonce = generateNonce()
@@ -96,11 +98,29 @@ app.get(`*`, function (request, response) {
   response.sendFile(path.resolve(__dirname, `../dist/index.html`))
 })
 
+const wsServer = new WebSocketServer({ noServer: true })
+wsServer.on(`connection`, ySocket.setupWSConnection)
+
 let port = 3000
 if (process.env.NODE_ENV === `production`) {
   port = 4000
 }
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`API listening on port ${port}`)
+})
+
+server.on(`upgrade`, (request, socket, head) => {
+  console.log(`Parsing session from request...`)
+
+  sessionParser(request, {}, () => {
+    if (!request.session?.siwe?.address) {
+      socket.write(`HTTP/1.1 401 Unauthorized\r\n\r\n`)
+      socket.destroy()
+      return
+    }
+    wsServer.handleUpgrade(request, socket, head, (socket) => {
+      wsServer.emit(`connection`, socket, request)
+    })
+  })
 })

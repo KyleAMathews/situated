@@ -22,6 +22,7 @@ specifiers:
   ethers: ^5.7.2
   express: ^4.18.2
   express-session: ^1.17.3
+  lib0: ^0.2.58
   monaco-editor: ^0.34.1
   nanoid: ^4.0.0
   nodemon: ^2.0.20
@@ -35,6 +36,7 @@ specifiers:
   typography: ^0.16.21
   vite: ^4.0.3
   wagmi: 0.9.x
+  ws: ^8.11.0
   y-monaco: ^0.1.4
   y-protocols: ^1.0.5
   y-webrtc: ^10.2.3
@@ -44,7 +46,9 @@ dependencies:
   cors: 2.8.5
   express: 4.18.2
   express-session: 1.17.3
+  lib0: 0.2.58
   siwe: 1.1.6_ethers@5.7.2
+  ws: 8.11.0
   y-webrtc: 10.2.3
   yjs: 13.5.44
 
@@ -5475,6 +5479,19 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+
+  /ws/8.11.0:
+    resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /ws/8.11.0_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
