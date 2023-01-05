@@ -24,15 +24,15 @@ export const rootDoc = new Y.Doc()
 // })
 
 // export const awareness = webRTCProvider.awareness
-
-const wsProvider = new WebsocketProvider(
-  `ws://localhost:3000`,
-  roomId,
-  rootDoc,
-  {
-    awareness: new awarenessProtocol.Awareness(rootDoc),
-  }
-)
+const port = import.meta.env.PROD ? location.port : `3000`
+const href = new URL(
+  `${location.protocol === `https:` ? `wss:` : `ws:`}//${
+    location.hostname
+  }:${port}`
+).href
+const wsProvider = new WebsocketProvider(href, roomId, rootDoc, {
+  awareness: new awarenessProtocol.Awareness(rootDoc),
+})
 export const awareness = wsProvider.awareness
 
 wsProvider.on(`status`, (event) => {
