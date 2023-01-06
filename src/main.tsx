@@ -3,7 +3,7 @@ import React, { lazy } from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "./routes/root"
-import Typography from "typography"
+// import Typography from "typography"
 import { action as rootAction } from "./routes/root.action"
 import { loader as docLoader } from "./doc-factory"
 import ErrorPage from "./error-page"
@@ -19,6 +19,7 @@ import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { mainnet } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
 import { AuthenticationStatus } from "./auth-status"
+import "@fontsource/inter/variable-full.css"
 
 const { chains, provider } = configureChains(
   [mainnet],
@@ -122,24 +123,25 @@ function Auth({ children }) {
   )
 }
 
-const typography = new Typography({
-  baseFontSize: `18px`,
-  baseLineHeight: 1.45,
-  headerFontFamily: [
-    `Avenir Next`,
-    `Helvetica Neue`,
-    `Segoe UI`,
-    `Helvetica`,
-    `Arial`,
-    `sans-serif`,
-  ],
-  bodyFontFamily: [`Georgia`, `serif`],
-})
+// const typography = new Typography({
+// baseFontSize: `18px`,
+// baseLineHeight: 1.45,
+// headerFontFamily: [
+// `Avenir Next`,
+// `Helvetica Neue`,
+// `Segoe UI`,
+// `Helvetica`,
+// `Arial`,
+// `sans-serif`,
+// ],
+// bodyFontFamily: [`Georgia`, `serif`],
+// })
 
-typography.injectStyles()
+// typography.injectStyles()
 
 const LazyEntry = lazy(() => import(`./routes/entry`))
 const LazyLogin = lazy(() => import(`./routes/login`))
+const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 
 const router = createBrowserRouter([
   {
@@ -157,6 +159,11 @@ const router = createBrowserRouter([
       {
         path: `/login`,
         element: <LazyLogin />,
+        // loader: entryLoader,
+      },
+      {
+        path: `/styleguide`,
+        element: <LazyStyleGuide />,
         // loader: entryLoader,
       },
     ],

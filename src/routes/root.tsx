@@ -5,6 +5,11 @@ import "../App.css"
 import { rootDoc } from "../doc-factory"
 import { useAccount } from "wagmi"
 import { AuthenticationStatus } from "../auth-status"
+// import * as Components from "../styles/base-components"
+// import * as styles from "./base-components.css"
+import { fontStyles } from "../styles/typography.css"
+import * as Components from "../styles/base-components"
+import * as rootStyles from "../styles/root.css"
 
 function App() {
   const navigate = useNavigate()
@@ -40,31 +45,37 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <ul>
-          <Form method="post">
-            <button type="submit">New entry</button>
-          </Form>
-          {Object.values(entries)
-            .reverse()
-            .map((entry: Y.Map) => {
-              return (
-                <li key={entry.id}>
-                  <Link to={`entries/${entry.id}`}>
-                    {new Date(entry.created_at).toLocaleDateString()}
-                    {`—`}
-                    {new Date(entry.created_at).toLocaleTimeString()}
-                    {`—`}
-                    {entry.type} [{entry.categories.join(`,`)}]
-                  </Link>
-                </li>
-              )
-            })}
-        </ul>
-      </div>
-      <React.Suspense>
-        <Outlet />
-      </React.Suspense>
+      <section className={rootStyles.layout}>
+        <div className={rootStyles.sidebar}>
+          <Link to="/">Home</Link>
+          <p className={fontStyles.INTER_SMALL}>User: {accountInfo.address}</p>
+          <Components.UL>
+            <Form method="post">
+              <button type="submit">New entry</button>
+            </Form>
+            {Object.values(entries)
+              .reverse()
+              .map((entry: Y.Map) => {
+                return (
+                  <li className={fontStyles.INTER_SMALL} key={entry.id}>
+                    <Link to={`entries/${entry.id}`}>
+                      {new Date(entry.created_at).toLocaleDateString()}
+                      {`—`}
+                      {new Date(entry.created_at).toLocaleTimeString()}
+                      {`—`}
+                      {entry.type} [{entry.categories.join(`,`)}]
+                    </Link>
+                  </li>
+                )
+              })}
+          </Components.UL>
+        </div>
+        <div className={rootStyles.body}>
+          <React.Suspense>
+            <Outlet />
+          </React.Suspense>
+        </div>
+      </section>
     </div>
   )
 }

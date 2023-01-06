@@ -1,6 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@capsizecss/core': ^3.0.0
+  '@capsizecss/metrics': ^0.4.0
+  '@capsizecss/vanilla-extract': ^1.0.0
+  '@fontsource/inter': ^4.5.14
   '@kylemathews-test/yfs-react': ^0.1.0
   '@monaco-editor/react': ^4.4.6
   '@rainbow-me/rainbowkit': ^0.8.1
@@ -62,6 +66,10 @@ dependencies:
   yjs: 13.5.44
 
 devDependencies:
+  '@capsizecss/core': 3.0.0
+  '@capsizecss/metrics': 0.4.0
+  '@capsizecss/vanilla-extract': 1.0.0_@vanilla-extract+css@1.9.2
+  '@fontsource/inter': 4.5.14
   '@kylemathews-test/yfs-react': 0.1.0
   '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
   '@rainbow-me/rainbowkit': 0.8.1_imhbbmdvnpugztnf3ig3ttouje
@@ -382,6 +390,23 @@ packages:
       '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@capsizecss/core/3.0.0:
+    resolution: {integrity: sha512-tJNEWMmhHcU5z6ITAiVNN9z+PCTylybVIJqgX7Ts4zN66fe/W2Fe5UWJCCZIP/5uutsl5fYOaVVHZIjsuTVhBQ==}
+    dev: true
+
+  /@capsizecss/metrics/0.4.0:
+    resolution: {integrity: sha512-jPQDSAcJWli5YV2Ab8e4i3IYQLZOMCVoYprbL8rJWLwg9Ct0FNtVxA9LfmWdj+bXYh1r+i8WPHCXZ/RXR0fnyg==}
+    dev: true
+
+  /@capsizecss/vanilla-extract/1.0.0_@vanilla-extract+css@1.9.2:
+    resolution: {integrity: sha512-/cY34CgCAmuf6SmpgPXmDJaIdJOaRe37MsoeZIeZme4k0F0HFts+poTxq4m8UtBH7LRxpUkfUHDoRO9OYjjVBg==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.2.1
+    dependencies:
+      '@capsizecss/core': 3.0.0
+      '@vanilla-extract/css': 1.9.2
     dev: true
 
   /@coinbase/wallet-sdk/3.6.3:
@@ -920,6 +945,10 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
+
+  /@fontsource/inter/4.5.14:
+    resolution: {integrity: sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==}
+    dev: true
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}

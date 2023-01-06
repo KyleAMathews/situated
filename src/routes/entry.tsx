@@ -8,6 +8,8 @@ import useInterval from "../use-interval"
 import { awareness, rootDoc } from "../doc-factory"
 import { entries } from "../doc-factory"
 import { subtext } from "./entry.css"
+import * as Components from "../styles/base-components"
+import { fontStyles } from "../styles/typography.css"
 
 // export async function loader({ params }) {
 // if (entries.has(params.entryId)) {
@@ -56,8 +58,8 @@ function LogEntryBase(props) {
         value: ``, // MonacoBinding overwrites this value with the content of type
         defaultLanguage: `markdown`,
         codeLens: false,
-        fontSize: 14,
-        lineHeight: 24,
+        fontSize: 16,
+        lineHeight: 32,
         lineNumbers: `off`,
         padding: {
           top: 30,
@@ -66,7 +68,7 @@ function LogEntryBase(props) {
         selectionHighlight: false,
         wordWrap: `on`,
         folding: false,
-        fontFamily: `Menlo, ui-monospace, SFMono-Regular, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
+        fontFamily: `InterVariable`,
         hideCursorInOverviewRuler: true,
         glyphMargin: false,
         lightbulb: { enabled: false },
@@ -115,16 +117,16 @@ function LogEntryBase(props) {
 
   return (
     <div className="LogEntry">
-      <h1>
+      <Components.H1>
         Entry: {entry.get(`type`)} [
         {entry.get(`categories`).toArray().join(`,`)}]
-      </h1>
-      <h3 className={subtext}>
+      </Components.H1>
+      <Components.H3 className={subtext}>
         created:{` `}
         {new Date(entry.get(`created_at`)).toLocaleDateString()}
         {`—`}
         {new Date(entry.get(`created_at`)).toLocaleTimeString()}
-      </h3>
+      </Components.H3>
 
       <button
         onClick={() => {
@@ -133,8 +135,9 @@ function LogEntryBase(props) {
       >
         Select folder
       </button>
-      <h2>Title</h2>
+      <Components.H2>Title</Components.H2>
       <input
+        className={fontStyles.INTER_MED}
         type="text"
         name="title"
         value={title}
@@ -147,7 +150,7 @@ function LogEntryBase(props) {
       />
       <br />
       <br />
-      <h2>Body</h2>
+      <Components.H2>Body</Components.H2>
       <div id="body-editor" />
     </div>
   )
