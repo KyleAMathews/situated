@@ -4,13 +4,13 @@ import { Outlet, Link, Form, useNavigate, useLocation } from "react-router-dom"
 import "../App.css"
 import { rootDoc } from "../doc-factory"
 import { useAccount } from "wagmi"
+import { AuthenticationStatus } from "../auth-status"
 
 function App() {
   const navigate = useNavigate()
   const location = useLocation()
   const accountInfo = useAccount()
-  console.log({ accountInfo })
-  console.log({ navigate, location })
+  const authStatus = React.useContext(AuthenticationStatus)
   // TODO parent doc w/ array of log entries — button to create the new entry creates the entry
   // and then navigates to it.
   // const { entries } = useLoaderData()
@@ -31,10 +31,10 @@ function App() {
   const [token, setToken] = React.useState()
 
   React.useEffect(() => {
-    if (!accountInfo.address && location.pathname !== `/login`) {
+    if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
       navigate(`/login`)
     }
-  }, [])
+  }, [authStatus])
 
   // Only init if logged in, useEffect w/ token as the comparision
 

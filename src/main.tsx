@@ -10,29 +10,28 @@ import ErrorPage from "./error-page"
 import "@rainbow-me/rainbowkit/styles.css"
 import { SiweMessage } from "siwe"
 import {
-  getDefaultWallets,
   RainbowKitProvider,
   createAuthenticationAdapter,
   RainbowKitAuthenticationProvider,
 } from "@rainbow-me/rainbowkit"
+import { connectorsForWallets } from "@rainbow-me/rainbowkit"
+import { rainbowWallet } from "@rainbow-me/rainbowkit/wallets"
 import { configureChains, createClient, WagmiConfig } from "wagmi"
 import { mainnet } from "wagmi/chains"
 import { alchemyProvider } from "wagmi/providers/alchemy"
-import { publicProvider } from "wagmi/providers/public"
+import { AuthenticationStatus } from "./auth-status"
 
 const { chains, provider } = configureChains(
   [mainnet],
-  [
-    alchemyProvider({ apiKey: `03yzRcU8w9JY4Ro3kBH2C_O0lqJuMQ_b` }),
-    // alchemyProvider({ apiKey: `_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC` }),
-    publicProvider(),
-  ]
+  [alchemyProvider({ apiKey: `03yzRcU8w9JY4Ro3kBH2C_O0lqJuMQ_b` })]
 )
 
-const { connectors } = getDefaultWallets({
-  appName: `Life Logger`,
-  chains,
-})
+const connectors = connectorsForWallets([
+  {
+    groupName: `Recommended`,
+    wallets: [rainbowWallet({ chains })],
+  },
+])
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -41,21 +40,17 @@ const wagmiClient = createClient({
 })
 
 const port = import.meta.env.PROD ? location.port : `3000`
-const url = `${location.protocol}://${location.hostname}:${port}`
 const BACKEND_ADDR = new URL(
   `${location.protocol}//${location.hostname}:${port}`
 ).href
 
 function Auth({ children }) {
-  console.log({ children })
   const [authenticationStatus, setAuthenticationStatus] = React.useState<
     `loading` | `authenticated` | `unauthenticated`
   >(`loading`)
-  console.log({ authenticationStatus })
 
   const authenticationAdapter = createAuthenticationAdapter({
     getNonce: async () => {
-      console.log(`getNonce`)
       const response = await fetch(`${BACKEND_ADDR}nonce`, {
         credentials: `include`,
       })
@@ -80,7 +75,6 @@ function Auth({ children }) {
     },
 
     verify: async ({ message, signature }) => {
-      console.log(`verify`)
       const verifyRes = await fetch(`${BACKEND_ADDR}verify`, {
         method: `POST`,
         headers: {
@@ -90,7 +84,6 @@ function Auth({ children }) {
         credentials: `include`,
       })
 
-      console.log({ verifyRes })
       if (verifyRes.ok) {
         setAuthenticationStatus(`authenticated`)
       }
@@ -106,9 +99,6 @@ function Auth({ children }) {
       const res = await fetch(`${BACKEND_ADDR}personal_information`, {
         credentials: `include`,
       })
-      console.log({ res })
-      // const data = await res.json()
-      // console.log({ data })
       if (!res.ok) {
         setAuthenticationStatus(`unauthenticated`)
       } else {
@@ -119,12 +109,14 @@ function Auth({ children }) {
   }, [])
 
   return (
-    <RainbowKitAuthenticationProvider
-      adapter={authenticationAdapter}
-      status={authenticationStatus}
-    >
-      {children}
-    </RainbowKitAuthenticationProvider>
+    <AuthenticationStatus.Provider value={authenticationStatus}>
+      <RainbowKitAuthenticationProvider
+        adapter={authenticationAdapter}
+        status={authenticationStatus}
+      >
+        {children}
+      </RainbowKitAuthenticationProvider>
+    </AuthenticationStatus.Provider>
   )
 }
 
@@ -169,12 +161,10 @@ const router = createBrowserRouter([
   },
 ])
 
-const AUTHENTICATION_STATUS = `unauthenticated`
-
 ReactDOM.createRoot(document.getElementById(`root`) as HTMLElement).render(
   <WagmiConfig client={wagmiClient}>
     <Auth>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} modalSize="compact">
         <RouterProvider router={router} />
       </RainbowKitProvider>
     </Auth>

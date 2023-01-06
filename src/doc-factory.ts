@@ -50,17 +50,13 @@ wsProvider.on(`synced`, () => {
 })
 
 export async function loader() {
-  console.log({ wsProvider })
   const res = await fetch(`${BACKEND_ADDR}personal_information`, {
     credentials: `include`,
   })
-  console.log(`res.ok`, res.ok)
   if (res.ok) {
     return await synced
   } else {
-    console.log(location.href)
     return null
-    // return redirect(`/login`)
   }
 }
 
