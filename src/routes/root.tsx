@@ -30,9 +30,11 @@ function App() {
   // Am I logged in?
   const [token, setToken] = React.useState()
 
-  if (!accountInfo.address && location.pathname !== `/login`) {
-    navigate(`/login`)
-  }
+  React.useEffect(() => {
+    if (!accountInfo.address && location.pathname !== `/login`) {
+      navigate(`/login`)
+    }
+  }, [])
 
   // Only init if logged in, useEffect w/ token as the comparision
 
