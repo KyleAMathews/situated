@@ -62,7 +62,9 @@ function App() {
             })}
         </ul>
       </div>
-      <Outlet />
+      <React.Suspense>
+        <Outlet />
+      </React.Suspense>
     </div>
   )
 }

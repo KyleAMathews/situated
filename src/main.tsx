@@ -1,13 +1,11 @@
 import "./polyfills"
-import React from "react"
+import React, { lazy } from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "./routes/root"
 import Typography from "typography"
 import { action as rootAction } from "./routes/root.action"
 import { loader as docLoader } from "./doc-factory"
-import Entry from "./routes/entry"
-import Login from "./routes/login"
 import ErrorPage from "./error-page"
 import "@rainbow-me/rainbowkit/styles.css"
 import { SiweMessage } from "siwe"
@@ -44,7 +42,6 @@ const wagmiClient = createClient({
 
 const port = import.meta.env.PROD ? location.port : `3000`
 const url = `${location.protocol}://${location.hostname}:${port}`
-console.log({ port, importy: import.meta, url })
 const BACKEND_ADDR = new URL(
   `${location.protocol}//${location.hostname}:${port}`
 ).href
@@ -147,6 +144,9 @@ const typography = new Typography({
 
 typography.injectStyles()
 
+const LazyEntry = lazy(() => import(`./routes/entry`))
+const LazyLogin = lazy(() => import(`./routes/login`))
+
 const router = createBrowserRouter([
   {
     path: `/`,
@@ -157,12 +157,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: `entries/:entryId`,
-        element: <Entry />,
+        element: <LazyEntry />,
         loader: docLoader,
       },
       {
         path: `/login`,
-        element: <Login />,
+        element: <LazyLogin />,
         // loader: entryLoader,
       },
     ],
