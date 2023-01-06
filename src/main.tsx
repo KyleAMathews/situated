@@ -8,7 +8,6 @@ import { action as rootAction } from "./routes/root.action"
 import { loader as docLoader } from "./doc-factory"
 import ErrorPage from "./error-page"
 import "@rainbow-me/rainbowkit/styles.css"
-import { SiweMessage } from "siwe"
 import {
   RainbowKitProvider,
   createAuthenticationAdapter,
@@ -44,6 +43,7 @@ const BACKEND_ADDR = new URL(
   `${location.protocol}//${location.hostname}:${port}`
 ).href
 
+let siweModule
 function Auth({ children }) {
   const [authenticationStatus, setAuthenticationStatus] = React.useState<
     `loading` | `authenticated` | `unauthenticated`
@@ -51,6 +51,7 @@ function Auth({ children }) {
 
   const authenticationAdapter = createAuthenticationAdapter({
     getNonce: async () => {
+      siweModule = await import(`siwe`)
       const response = await fetch(`${BACKEND_ADDR}nonce`, {
         credentials: `include`,
       })
@@ -59,7 +60,8 @@ function Auth({ children }) {
     },
 
     createMessage: ({ nonce, address, chainId }) => {
-      return new SiweMessage({
+      console.log({ siweModule })
+      return new siweModule.SiweMessage({
         domain: window.location.host,
         address,
         statement: `Sign in with Ethereum to the app.`,
