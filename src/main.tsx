@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "./routes/root"
 import Typography from "typography"
 import { action as rootAction } from "./routes/root.action"
+import { loader as docLoader } from "./doc-factory"
 import Entry from "./routes/entry"
 import Login from "./routes/login"
 import ErrorPage from "./error-page"
@@ -44,7 +45,9 @@ const wagmiClient = createClient({
 const port = import.meta.env.PROD ? location.port : `3000`
 const url = `${location.protocol}://${location.hostname}:${port}`
 console.log({ port, importy: import.meta, url })
-const BACKEND_ADDR = new URL(`${location.protocol}//${location.hostname}:${port}`).href
+const BACKEND_ADDR = new URL(
+  `${location.protocol}//${location.hostname}:${port}`
+).href
 
 function Auth({ children }) {
   console.log({ children })
@@ -149,13 +152,13 @@ const router = createBrowserRouter([
     path: `/`,
     element: <Root />,
     action: rootAction,
-    // loader: rootLoader,
+    loader: docLoader,
     errorElement: <ErrorPage />,
     children: [
       {
         path: `entries/:entryId`,
         element: <Entry />,
-        // loader: entryLoader,
+        loader: docLoader,
       },
       {
         path: `/login`,

@@ -17,9 +17,6 @@ import { subtext } from "./entry.css"
 // }
 // }
 
-const doc = new Y.Doc()
-console.log({ doc })
-
 function LogEntryBase(props) {
   const { entryId } = useParams()
   // const { entry } = useLoaderData()

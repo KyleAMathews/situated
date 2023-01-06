@@ -33,6 +33,20 @@ const href = new URL(
 const wsProvider = new WebsocketProvider(href, roomId, rootDoc, {
   awareness: new awarenessProtocol.Awareness(rootDoc),
 })
+
+let dResolve
+const synced = new Promise((resolve) => {
+  dResolve = resolve
+})
+wsProvider.on(`synced`, () => {
+  console.log(`yjs synced`)
+  dResolve(true)
+})
+
+export async function loader() {
+  return await synced
+}
+
 export const awareness = wsProvider.awareness
 
 wsProvider.on(`status`, (event) => {
