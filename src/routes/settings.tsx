@@ -75,6 +75,7 @@ function Settings() {
                 e.preventDefault()
                 console.log(e)
                 const profile = {
+                  ...awareness.getLocalState(),
                   name: e.target.name.value,
                   avatar: e.target.avatar.value,
                 }

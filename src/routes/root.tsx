@@ -31,6 +31,11 @@ function App() {
   React.useEffect(() => {
     if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
       navigate(`/login`)
+    } else if (authStatus === `authenticated`) {
+      awareness.setLocalState({
+        ...awareness.getLocalState(),
+        online: true,
+      })
     }
   }, [authStatus])
 
