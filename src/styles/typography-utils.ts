@@ -1,5 +1,5 @@
-import { fonts } from "./typography.css"
-import { createTextStyle } from "@capsizecss/vanilla-extract"
+import { fonts } from './typography.css'
+import { createTextStyle } from '@capsizecss/vanilla-extract'
 
 interface Props {
   id: FontFamilyId

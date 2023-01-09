@@ -4,6 +4,7 @@
   "dependencies": {
     "connect-lowdb": "^2.0.0",
     "cors": "^2.8.5",
+    "degen": "^0.0.118",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "fs-extra": "^11.1.0",
@@ -56,7 +57,7 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "dev": "ALLOWED_ADDRESSES=0xeBCaAC47e92207cda75dd53C234815279DeD5f5C concurrently 'vite --host' 'nodemon src/server.js'",
+    "dev": "ALLOWED_ADDRESSES=0xeBCaAC47e92207cda75dd53C234815279DeD5f5C,0x1A779cb76827D7818157673b02D426A9D003658c concurrently 'vite --host' 'nodemon src/server.js'",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "preview": "vite preview",
     "start": "NODE_ENV=production node src/server.js"

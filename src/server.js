@@ -1,19 +1,19 @@
-import cors from "cors"
-import path from "path"
-import express from "express"
-import { WebSocketServer } from "ws"
-import Session from "express-session"
-import { generateNonce, ErrorTypes, SiweMessage } from "siwe"
-import { fileURLToPath } from "url"
-import ySocket from "./y-socket-server.cjs"
-import fs from "fs-extra"
+import cors from 'cors'
+import path from 'path'
+import express from 'express'
+import { WebSocketServer } from 'ws'
+import Session from 'express-session'
+import { generateNonce, ErrorTypes, SiweMessage } from 'siwe'
+import { fileURLToPath } from 'url'
+import ySocket from './y-socket-server.cjs'
+import fs from 'fs-extra'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-import { Low } from "lowdb"
-import { JSONFile } from "lowdb/node"
-import lowdbStore from "connect-lowdb"
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
+import lowdbStore from 'connect-lowdb'
 
 const LowdbStore = lowdbStore(Session)
 
@@ -30,7 +30,7 @@ app.use(
   cors({
     origin: `http://localhost:5173`,
     credentials: true,
-  })
+  }),
 )
 
 const sessionParser = Session({
@@ -114,7 +114,7 @@ app.get(`/personal_information`, function (req, res) {
   console.log(`User is authenticated!`)
   res.setHeader(`Content-Type`, `text/plain`)
   res.send(
-    `You are authenticated and your address is: ${req.session.siwe.address}`
+    `You are authenticated and your address is: ${req.session.siwe.address}`,
   )
 })
 

@@ -1,15 +1,15 @@
-import * as Y from "yjs"
-import React, { useState, useEffect, useRef, useCallback } from "react"
-import { useLoaderData, useParams } from "react-router-dom"
-import { MonacoBinding } from "y-monaco"
-import * as monaco from "monaco-editor"
-import useFileSync from "@kylemathews-test/yfs-react"
-import useInterval from "../use-interval"
-import { awareness, rootDoc } from "../doc-factory"
-import { entries } from "../doc-factory"
-import { subtext } from "./entry.css"
-import * as Components from "../styles/base-components"
-import { fontStyles } from "../styles/typography.css"
+import * as Y from 'yjs'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useLoaderData, useParams } from 'react-router-dom'
+import { MonacoBinding } from 'y-monaco'
+import * as monaco from 'monaco-editor'
+import useFileSync from '@kylemathews-test/yfs-react'
+import useInterval from '../use-interval'
+import { awareness, rootDoc } from '../doc-factory'
+import { entries } from '../doc-factory'
+import { subtext } from './entry.css'
+import * as Components from '../styles/base-components'
+import { fontStyles } from '../styles/typography.css'
 
 // export async function loader({ params }) {
 // if (entries.has(params.entryId)) {
@@ -26,8 +26,6 @@ function LogEntryBase(props) {
   const entry = entries.get(entryId)
   console.log(entry.toJSON())
   const [, setRender] = useState()
-  const title = entry.get(`title`).toString()
-  console.log({ title })
   const config = useRef<undefined>(undefined)
   // const {
   // isSupported,
@@ -94,7 +92,7 @@ function LogEntryBase(props) {
         tabSize: 2,
         wordBasedSuggestions: false,
         wrappingStrategy: `advanced`,
-      }
+      },
     )
 
     // Bind Yjs to the editor model
@@ -102,7 +100,7 @@ function LogEntryBase(props) {
       entry.get(`body`),
       editor.getModel(),
       new Set([editor]),
-      awareness
+      awareness,
     )
 
     return () => {
@@ -115,42 +113,35 @@ function LogEntryBase(props) {
     }
   }, [entry])
 
+  React.useEffect(() => {
+    awareness.setLocalState({
+      name: Math.random(),
+    })
+  }, [])
+
+  console.log({
+    awareness,
+    states: awareness.getStates(),
+    localState: awareness.getLocalState(),
+  })
+
+  // <button
+  // onClick={() => {
+  // setRootDirectory(true)
+  // }}
+  // >
+  // Select folder
+  // </button>
   return (
     <div className="LogEntry">
-      <Components.H1>
-        Entry: {entry.get(`type`)} [
-        {entry.get(`categories`).toArray().join(`,`)}]
-      </Components.H1>
-      <Components.H3 className={subtext}>
-        created:{` `}
+      <Components.H1>{entry.get(`type`)}</Components.H1>
+      <Components.Text>
         {new Date(entry.get(`created_at`)).toLocaleDateString()}
-        {`—`}
+        {` `}
         {new Date(entry.get(`created_at`)).toLocaleTimeString()}
-      </Components.H3>
+      </Components.Text>
 
-      <button
-        onClick={() => {
-          setRootDirectory(true)
-        }}
-      >
-        Select folder
-      </button>
-      <Components.H2>Title</Components.H2>
-      <input
-        className={fontStyles.INTER_MED}
-        type="text"
-        name="title"
-        value={title}
-        onChange={(e) => {
-          rootDoc.transact(() => {
-            entry.get(`title`).delete(0, entry.get(`title`).length)
-            entry.get(`title`).insert(0, e.target.value)
-          })
-        }}
-      />
-      <br />
-      <br />
-      <Components.H2>Body</Components.H2>
+      <Components.H2>Description</Components.H2>
       <div id="body-editor" />
     </div>
   )

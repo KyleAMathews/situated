@@ -1,29 +1,31 @@
-import "./polyfills"
-import React, { lazy } from "react"
-import ReactDOM from "react-dom/client"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import Root from "./routes/root"
+import { ThemeProvider } from 'degen'
+import 'degen/styles'
+import './polyfills'
+import React, { lazy } from 'react'
+import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Root from './routes/root'
 // import Typography from "typography"
-import { action as rootAction } from "./routes/root.action"
-import { loader as docLoader } from "./doc-factory"
-import ErrorPage from "./error-page"
-import "@rainbow-me/rainbowkit/styles.css"
+import { action as rootAction } from './routes/root.action'
+import { loader as docLoader } from './doc-factory'
+import ErrorPage from './error-page'
+import '@rainbow-me/rainbowkit/styles.css'
 import {
   RainbowKitProvider,
   createAuthenticationAdapter,
   RainbowKitAuthenticationProvider,
-} from "@rainbow-me/rainbowkit"
-import { connectorsForWallets } from "@rainbow-me/rainbowkit"
-import { rainbowWallet } from "@rainbow-me/rainbowkit/wallets"
-import { configureChains, createClient, WagmiConfig } from "wagmi"
-import { mainnet } from "wagmi/chains"
-import { alchemyProvider } from "wagmi/providers/alchemy"
-import { AuthenticationStatus } from "./auth-status"
-import "@fontsource/inter/variable-full.css"
+} from '@rainbow-me/rainbowkit'
+import { connectorsForWallets } from '@rainbow-me/rainbowkit'
+import { rainbowWallet } from '@rainbow-me/rainbowkit/wallets'
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { AuthenticationStatus } from './auth-status'
+import '@fontsource/inter/variable-full.css'
 
 const { chains, provider } = configureChains(
   [mainnet],
-  [alchemyProvider({ apiKey: `03yzRcU8w9JY4Ro3kBH2C_O0lqJuMQ_b` })]
+  [alchemyProvider({ apiKey: `03yzRcU8w9JY4Ro3kBH2C_O0lqJuMQ_b` })],
 )
 
 const connectors = connectorsForWallets([
@@ -41,7 +43,7 @@ const wagmiClient = createClient({
 
 const port = import.meta.env.PROD ? location.port : `3000`
 const BACKEND_ADDR = new URL(
-  `${location.protocol}//${location.hostname}:${port}`
+  `${location.protocol}//${location.hostname}:${port}`,
 ).href
 
 let siweModule
@@ -81,7 +83,7 @@ function Auth({ children }) {
       const verifyRes = await fetch(`${BACKEND_ADDR}verify`, {
         method: `POST`,
         headers: {
-          "Content-Type": `application/json`,
+          'Content-Type': `application/json`,
         },
         body: JSON.stringify({ message, signature }),
         credentials: `include`,
@@ -142,6 +144,7 @@ function Auth({ children }) {
 const LazyEntry = lazy(() => import(`./routes/entry`))
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
+const LazySettings = lazy(() => import(`./routes/settings`))
 
 const router = createBrowserRouter([
   {
@@ -154,6 +157,11 @@ const router = createBrowserRouter([
       {
         path: `entries/:entryId`,
         element: <LazyEntry />,
+        loader: docLoader,
+      },
+      {
+        path: `settings`,
+        element: <LazySettings />,
         loader: docLoader,
       },
       {
@@ -171,11 +179,13 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById(`root`) as HTMLElement).render(
-  <WagmiConfig client={wagmiClient}>
-    <Auth>
-      <RainbowKitProvider chains={chains} modalSize="compact">
-        <RouterProvider router={router} />
-      </RainbowKitProvider>
-    </Auth>
-  </WagmiConfig>
+  <ThemeProvider>
+    <WagmiConfig client={wagmiClient}>
+      <Auth>
+        <RainbowKitProvider chains={chains} modalSize="compact">
+          <RouterProvider router={router} />
+        </RainbowKitProvider>
+      </Auth>
+    </WagmiConfig>
+  </ThemeProvider>,
 )

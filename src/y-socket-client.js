@@ -6,16 +6,16 @@
 /* eslint-env browser */
 
 import * as Y from 'yjs' // eslint-disable-line
-import * as bc from "lib0/broadcastchannel"
-import * as time from "lib0/time"
-import * as encoding from "lib0/encoding"
-import * as decoding from "lib0/decoding"
-import * as syncProtocol from "y-protocols/sync"
-import * as authProtocol from "y-protocols/auth"
-import * as awarenessProtocol from "y-protocols/awareness"
-import { Observable } from "lib0/observable"
-import * as math from "lib0/math"
-import * as url from "lib0/url"
+import * as bc from 'lib0/broadcastchannel'
+import * as time from 'lib0/time'
+import * as encoding from 'lib0/encoding'
+import * as decoding from 'lib0/decoding'
+import * as syncProtocol from 'y-protocols/sync'
+import * as authProtocol from 'y-protocols/auth'
+import * as awarenessProtocol from 'y-protocols/awareness'
+import { Observable } from 'lib0/observable'
+import * as math from 'lib0/math'
+import * as url from 'lib0/url'
 
 export const messageSync = 0
 export const messageQueryAwareness = 3
@@ -33,14 +33,14 @@ messageHandlers[messageSync] = (
   decoder,
   provider,
   emitSynced,
-  _messageType
+  _messageType,
 ) => {
   encoding.writeVarUint(encoder, messageSync)
   const syncMessageType = syncProtocol.readSyncMessage(
     decoder,
     encoder,
     provider.doc,
-    provider
+    provider,
   )
   if (
     emitSynced &&
@@ -56,15 +56,15 @@ messageHandlers[messageQueryAwareness] = (
   _decoder,
   provider,
   _emitSynced,
-  _messageType
+  _messageType,
 ) => {
   encoding.writeVarUint(encoder, messageAwareness)
   encoding.writeVarUint8Array(
     encoder,
     awarenessProtocol.encodeAwarenessUpdate(
       provider.awareness,
-      Array.from(provider.awareness.getStates().keys())
-    )
+      Array.from(provider.awareness.getStates().keys()),
+    ),
   )
 }
 
@@ -73,12 +73,12 @@ messageHandlers[messageAwareness] = (
   decoder,
   provider,
   _emitSynced,
-  _messageType
+  _messageType,
 ) => {
   awarenessProtocol.applyAwarenessUpdate(
     provider.awareness,
     decoding.readVarUint8Array(decoder),
-    provider
+    provider,
   )
 }
 
@@ -87,10 +87,10 @@ messageHandlers[messageAuth] = (
   decoder,
   provider,
   _emitSynced,
-  _messageType
+  _messageType,
 ) => {
   authProtocol.readAuthMessage(decoder, provider.doc, (_ydoc, reason) =>
-    permissionDeniedHandler(provider, reason)
+    permissionDeniedHandler(provider, reason),
   )
 }
 
@@ -156,9 +156,9 @@ const setupWS = (provider) => {
         awarenessProtocol.removeAwarenessStates(
           provider.awareness,
           Array.from(provider.awareness.getStates().keys()).filter(
-            (client) => client !== provider.doc.clientID
+            (client) => client !== provider.doc.clientID,
           ),
-          provider
+          provider,
         )
         provider.emit(`status`, [
           {
@@ -174,9 +174,9 @@ const setupWS = (provider) => {
         setupWS,
         math.min(
           math.pow(2, provider.wsUnsuccessfulReconnects) * 100,
-          provider.maxBackoffTime
+          provider.maxBackoffTime,
         ),
-        provider
+        provider,
       )
     }
     websocket.onopen = () => {
@@ -202,7 +202,7 @@ const setupWS = (provider) => {
           encoderAwarenessState,
           awarenessProtocol.encodeAwarenessUpdate(provider.awareness, [
             provider.doc.clientID,
-          ])
+          ]),
         )
         websocket.send(encoding.toUint8Array(encoderAwarenessState))
       }
@@ -268,7 +268,7 @@ export class WebsocketProvider extends Observable {
       resyncInterval = -1,
       maxBackoffTime = 2500,
       disableBc = false,
-    } = {}
+    } = {},
   ) {
     super()
     // ensure that url is always ends with /
@@ -362,7 +362,7 @@ export class WebsocketProvider extends Observable {
       encoding.writeVarUint(encoder, messageAwareness)
       encoding.writeVarUint8Array(
         encoder,
-        awarenessProtocol.encodeAwarenessUpdate(awareness, changedClients)
+        awarenessProtocol.encodeAwarenessUpdate(awareness, changedClients),
       )
       broadcastMessage(this, encoding.toUint8Array(encoder))
     }
@@ -370,7 +370,7 @@ export class WebsocketProvider extends Observable {
       awarenessProtocol.removeAwarenessStates(
         this.awareness,
         [doc.clientID],
-        `window unload`
+        `window unload`,
       )
     }
     if (typeof window !== `undefined`) {
@@ -453,7 +453,7 @@ export class WebsocketProvider extends Observable {
     bc.publish(
       this.bcChannel,
       encoding.toUint8Array(encoderAwarenessQuery),
-      this
+      this,
     )
     // broadcast local awareness state
     const encoderAwarenessState = encoding.createEncoder()
@@ -462,12 +462,12 @@ export class WebsocketProvider extends Observable {
       encoderAwarenessState,
       awarenessProtocol.encodeAwarenessUpdate(this.awareness, [
         this.doc.clientID,
-      ])
+      ]),
     )
     bc.publish(
       this.bcChannel,
       encoding.toUint8Array(encoderAwarenessState),
-      this
+      this,
     )
   }
 
@@ -480,8 +480,8 @@ export class WebsocketProvider extends Observable {
       awarenessProtocol.encodeAwarenessUpdate(
         this.awareness,
         [this.doc.clientID],
-        new Map()
-      )
+        new Map(),
+      ),
     )
     broadcastMessage(this, encoding.toUint8Array(encoder))
     if (this.bcconnected) {

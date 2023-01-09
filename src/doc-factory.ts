@@ -1,14 +1,14 @@
-import * as Y from "yjs"
-import { redirect } from "react-router-dom"
+import * as Y from 'yjs'
+import { redirect } from 'react-router-dom'
 // import { WebrtcProvider } from "y-webrtc"
-import { WebsocketProvider } from "./y-socket-client"
-import * as awarenessProtocol from "y-protocols/awareness.js"
-import { nanoid } from "nanoid"
+import { WebsocketProvider } from './y-socket-client'
+import * as awarenessProtocol from 'y-protocols/awareness.js'
+import { nanoid } from 'nanoid'
 
 const port = import.meta.env.PROD ? location.port : `3000`
 const url = `${location.protocol}://${location.hostname}:${port}`
 const BACKEND_ADDR = new URL(
-  `${location.protocol}//${location.hostname}:${port}`
+  `${location.protocol}//${location.hostname}:${port}`,
 ).href
 
 const roomId = `the-sample-room2`
@@ -34,7 +34,7 @@ export const rootDoc = new Y.Doc()
 const href = new URL(
   `${location.protocol === `https:` ? `wss:` : `ws:`}//${
     location.hostname
-  }:${port}`
+  }:${port}`,
 ).href
 const wsProvider = new WebsocketProvider(href, roomId, rootDoc, {
   awareness: new awarenessProtocol.Awareness(rootDoc),
@@ -69,20 +69,22 @@ wsProvider.on(`status`, (event) => {
 export const entries = rootDoc.getMap(`entries`)
 window.rootDoc = rootDoc
 
-export function createEntry() {
+export function createEntry({
+  walletAddress,
+  type,
+}: {
+  walletAddress: string
+  type: string
+}) {
   const entry = new Y.Map()
   const id = nanoid()
   console.log({ id })
   rootDoc.transact(() => {
     entry.set(`id`, id)
     entry.set(`created_at`, new Date().toJSON())
-    entry.set(`type`, `1HPW project`)
-    entry.set(`title`, new Y.Text())
+    entry.set(`type`, type)
     entry.set(`body`, new Y.Text())
-    const categories = new Y.Array()
-    categories.push([`life-logger`])
-    entry.set(`categories`, categories)
-    entry.get(`categories`)
+    entry.set(`creator`, walletAddress)
     entries.set(id, entry)
   })
   console.log(entry.toJSON())

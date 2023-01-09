@@ -1,7 +1,7 @@
-import { FontMetrics } from "@capsizecss/core"
-import interFontMetrics from "@capsizecss/metrics/inter"
-import { createTextStyle } from "@capsizecss/vanilla-extract"
-import { style } from "@vanilla-extract/css"
+import { FontMetrics } from '@capsizecss/core'
+import interFontMetrics from '@capsizecss/metrics/inter'
+import { createTextStyle } from '@capsizecss/vanilla-extract'
+import { style } from '@vanilla-extract/css'
 
 interface Meta {
   fallback: string
@@ -30,8 +30,8 @@ export const fonts: Fonts = {
     name: `InterVariable`,
     wghtRange: `100 900`,
     wghts: {
-      "400": 400,
-      "700": 700,
+      '400': 400,
+      '700': 700,
     },
   },
 }

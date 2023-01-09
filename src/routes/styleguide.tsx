@@ -1,5 +1,5 @@
-import * as React from "react"
-import * as styles from "../styles/base-components.css"
+import * as React from 'react'
+import * as styles from '../styles/base-components.css'
 console.log({ styles })
 
 const Styleguide = () => {
