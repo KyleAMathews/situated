@@ -26,6 +26,8 @@ function App() {
   const authStatus = React.useContext(AuthenticationStatus)
   const entriesMap = rootDoc.get(`entries`)
   const entries = useYjsData(entriesMap)
+  const typesMap = rootDoc.getMap(`types`)
+  const eventTypes = useYjsData(typesMap)
 
   // Redirect to login if not logged in.
   React.useEffect(() => {
@@ -104,13 +106,11 @@ function App() {
                   value={accountInfo.address}
                 />
                 <select name="type">
-                  {Object.values(rootDoc.getMap(`types`).toJSON()).map(
-                    (type) => (
-                      <option key={type.name} value={type.name}>
-                        {type.name}
-                      </option>
-                    ),
-                  )}
+                  {Object.values(eventTypes).map((type) => (
+                    <option key={type.name} value={type.name}>
+                      {type.name}
+                    </option>
+                  ))}
                 </select>
                 <button size="small" type="submit">
                   Submit

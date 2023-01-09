@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useAccount } from 'wagmi'
+import { useYjsData } from '../hooks'
 import { rootDoc, awareness } from '../doc-factory'
 import { nanoid } from 'nanoid'
 import { H2, H3 } from '../styles/base-components'
@@ -20,16 +21,8 @@ function Settings() {
   const accountInfo = useAccount()
   const users = rootDoc.getMap(`users`)
   const typesMap = rootDoc.getMap(`types`)
-  const [types, setTypes] = React.useState(typesMap.toJSON())
+  const eventTypes = useYjsData(typesMap)
 
-  React.useEffect(() => {
-    function observer() {
-      console.log(typesMap.toJSON())
-      setTypes(typesMap.toJSON())
-    }
-    typesMap.observe(observer)
-    return () => typesMap.unobserve(observer)
-  }, [])
   return (
     <Stack>
       <Heading level="2">Settings</Heading>
@@ -37,7 +30,7 @@ function Settings() {
         <Stack space="2">
           <h3 className={fontStyles.INTER_LARGE}>Types</h3>
           <Box as="ul" paddingLeft="4" style={{ listStyle: `disc` }}>
-            {Object.values(types).map((type) => {
+            {Object.values(eventTypes).map((type) => {
               return <li key={type.name}>{type.name}</li>
             })}
           </Box>
