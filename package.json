@@ -13,6 +13,7 @@
     "lowdb": "^5.0.5",
     "lowdb-session-store": "^1.1.1",
     "siwe": "^1.1.6",
+    "use-sync-external-store": "^1.2.0",
     "ws": "^8.11.0",
     "y-protocols": "^1.0.5",
     "yjs": "^13.5.44"

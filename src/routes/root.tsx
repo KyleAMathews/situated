@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Y from 'yjs'
 import { Outlet, Link, Form, useNavigate, useLocation } from 'react-router-dom'
 import '../App.css'
+import { useSelf, useYjsData, useUsers } from '../hooks'
 import { rootDoc, awareness } from '../doc-factory'
 import { useAccount } from 'wagmi'
 import { AuthenticationStatus } from '../auth-status'
@@ -18,34 +19,20 @@ function App() {
   const location = useLocation()
   const accountInfo = useAccount()
   const users = rootDoc.getMap(`users`)
-  const profile = users.get(accountInfo.address)
+  const awarenessUsers = useUsers(awareness)
+  const profile = useYjsData(users, (users) => {
+    return users[accountInfo.address]
+  })
   const authStatus = React.useContext(AuthenticationStatus)
-  // TODO parent doc w/ array of log entries — button to create the new entry creates the entry
-  // and then navigates to it.
-  // const { entries } = useLoaderData()
   const entriesMap = rootDoc.get(`entries`)
-  const [entries, setEntries] = React.useState(entriesMap.toJSON())
-  console.log({ users: awareness.getStates() })
+  const entries = useYjsData(entriesMap)
 
-  React.useEffect(() => {
-    function observer(event) {
-      console.log(`entries updated`, event)
-      setEntries(entriesMap.toJSON())
-    }
-    entriesMap.observe(observer)
-    return () => entriesMap.unobserve(observer)
-  }, [])
-
-  // Am I logged in?
-  const [token, setToken] = React.useState()
-
+  // Redirect to login if not logged in.
   React.useEffect(() => {
     if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
       navigate(`/login`)
     }
   }, [authStatus])
-
-  // Only init if logged in, useEffect w/ token as the comparision
 
   return (
     <div className="App">
@@ -64,9 +51,7 @@ function App() {
               src={profile?.avatar}
             />
             <Link to="/settings">Settings</Link>
-            <Text size="extraSmall">
-              {awareness.getStates().size} people online
-            </Text>
+            <Text size="extraSmall">{awarenessUsers.size} people online</Text>
           </Stack>
           <div
             style={{
@@ -75,24 +60,26 @@ function App() {
           >
             <Stack space="1">
               <table style={{ width: 8 * 40 }}>
-                {Object.values(entries)
-                  .sort((a, b) => a.created_at > b.created_at)
-                  .reverse()
-                  .map((entry: Y.Map) => {
-                    return (
-                      <tr>
-                        <td>{entry.type}</td>
-                        <td>
-                          {new Date(entry.created_at).toLocaleDateString()}
-                          {` `}
-                          {new Date(entry.created_at).toLocaleTimeString()}
-                        </td>
-                        <td>
-                          {users.get(entry.creator)?.name || entry.creator}
-                        </td>
-                      </tr>
-                    )
-                  })}
+                <tbody>
+                  {Object.values(entries)
+                    .sort((a, b) => a.created_at > b.created_at)
+                    .reverse()
+                    .map((entry: Y.Map) => {
+                      return (
+                        <tr key={entry.id}>
+                          <td>{entry.type}</td>
+                          <td>
+                            {new Date(entry.created_at).toLocaleDateString()}
+                            {` `}
+                            {new Date(entry.created_at).toLocaleTimeString()}
+                          </td>
+                          <td>
+                            {users.get(entry.creator)?.name || entry.creator}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                </tbody>
               </table>
             </Stack>
           </div>
