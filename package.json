@@ -9,6 +9,7 @@
     "express-session": "^1.17.3",
     "fs-extra": "^11.1.0",
     "lib0": "^0.2.58",
+    "lmdb": "^2.7.3",
     "lodash.debounce": "^4.0.8",
     "lowdb": "^5.0.5",
     "lowdb-session-store": "^1.1.1",
