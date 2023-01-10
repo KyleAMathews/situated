@@ -6,8 +6,8 @@ import { nanoid } from 'nanoid'
 import { H2, H3 } from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
 import * as styles from '../styles/settings.css'
+import { Text } from '../components'
 import {
-  Text,
   Heading,
   Button,
   Card,

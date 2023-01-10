@@ -6,7 +6,8 @@ import { useSelf, useYjsData, useUsers } from '../hooks'
 import { rootDoc, awareness } from '../doc-factory'
 import { useAccount } from 'wagmi'
 import { AuthenticationStatus } from '../auth-status'
-import { Text, Heading, Box, Avatar, IconLockClosed, Stack } from 'degen'
+import { Heading, Box, Avatar, IconLockClosed, Stack } from 'degen'
+import { Text } from '../components'
 // import * as Components from "../styles/base-components"
 // import * as styles from "./base-components.css"
 import { fontStyles } from '../styles/typography.css'
@@ -57,7 +58,9 @@ function App() {
               size="6"
               src={profile?.avatar}
             />
-            <Link to="/settings">Settings</Link>
+            <Text>
+              <Link to="/settings">Settings</Link>
+            </Text>
             <Text size="extraSmall">{awarenessUsers.size} people online</Text>
           </Stack>
           <div
@@ -69,7 +72,9 @@ function App() {
               <table style={{ width: 8 * 60 }}>
                 <thead>
                   <tr>
-                    <td>Type</td>
+                    <td>
+                      <Text>Type</Text>
+                    </td>
                     <td>Time</td>
                     <td>Creator</td>
                   </tr>
