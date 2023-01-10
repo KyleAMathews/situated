@@ -23,6 +23,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/server.js ./src/server.js
 COPY --from=builder /app/src/y-socket-server.cjs ./src/y-socket-server.cjs
 COPY --from=builder /app/src/callback.cjs ./src/callback.cjs
+COPY --from=builder /app/src/y-lmdb.cjs ./src/y-lmdb.cjs
 
 ENV NODE_ENV=production
 EXPOSE 4000
