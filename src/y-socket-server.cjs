@@ -1,6 +1,7 @@
 const Y = require(`yjs`)
 const syncProtocol = require(`y-protocols/dist/sync.cjs`)
 const awarenessProtocol = require(`y-protocols/dist/awareness.cjs`)
+const path = require(`path`)
 
 const encoding = require(`lib0/dist/encoding.cjs`)
 const decoding = require(`lib0/dist/decoding.cjs`)
@@ -21,31 +22,28 @@ const wsReadyStateOpen = 1
 const wsReadyStateClosing = 2 // eslint-disable-line
 const wsReadyStateClosed = 3 // eslint-disable-line
 
-// disable gc when using snapshots!
-const gcEnabled = process.env.GC !== `false` && process.env.GC !== `0`
-const persistenceDir = process.env.YPERSISTENCE
+const LMDBPersistence = require(`./y-lmdb.cjs`)
+const persistenceDir = path.resolve(process.cwd(), `.cache/doc.db`)
+const gcEnabled = true
+
 /**
  * @type {{bindState: function(string,WSSharedDoc):void, writeState:function(string,WSSharedDoc):Promise<any>, provider: any}|null}
  */
 let persistence = null
-if (typeof persistenceDir === `string`) {
-  console.info(`Persisting documents to "` + persistenceDir + `"`)
-  // @ts-ignore
-  const LeveldbPersistence = require(`y-leveldb`).LeveldbPersistence
-  const ldb = new LeveldbPersistence(persistenceDir)
-  persistence = {
-    provider: ldb,
-    bindState: async (docName, ydoc) => {
-      const persistedYdoc = await ldb.getYDoc(docName)
-      const newUpdates = Y.encodeStateAsUpdate(ydoc)
-      ldb.storeUpdate(docName, newUpdates)
-      Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc))
-      ydoc.on(`update`, (update) => {
-        ldb.storeUpdate(docName, update)
-      })
-    },
-    writeState: async (docName, ydoc) => {},
-  }
+console.info(`Persisting documents to ${persistenceDir}`)
+const ldb = new LMDBPersistence(persistenceDir)
+persistence = {
+  provider: ldb,
+  bindState: async (docName, ydoc) => {
+    const persistedYdoc = await ldb.getYDoc(docName)
+    const newUpdates = Y.encodeStateAsUpdate(ydoc)
+    ldb.storeUpdate(docName, newUpdates)
+    Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc))
+    ydoc.on(`update`, (update) => {
+      ldb.storeUpdate(docName, update)
+    })
+  },
+  writeState: async (docName, ydoc) => {},
 }
 
 /**
@@ -127,7 +125,7 @@ class WSSharedDoc extends Y.Doc {
       encoding.writeVarUint(encoder, messageAwareness)
       encoding.writeVarUint8Array(
         encoder,
-        awarenessProtocol.encodeAwarenessUpdate(this.awareness, changedClients)
+        awarenessProtocol.encodeAwarenessUpdate(this.awareness, changedClients),
       )
       const buff = encoding.toUint8Array(encoder)
       this.conns.forEach((_, c) => {
@@ -141,7 +139,7 @@ class WSSharedDoc extends Y.Doc {
         `update`,
         debounce(callbackHandler, CALLBACK_DEBOUNCE_WAIT, {
           maxWait: CALLBACK_DEBOUNCE_MAXWAIT,
-        })
+        }),
       )
     }
   }
@@ -193,7 +191,7 @@ const messageListener = (conn, doc, message) => {
         awarenessProtocol.applyAwarenessUpdate(
           doc.awareness,
           decoding.readVarUint8Array(decoder),
-          conn
+          conn,
         )
         break
       }
@@ -219,7 +217,7 @@ const closeConn = (doc, conn) => {
     awarenessProtocol.removeAwarenessStates(
       doc.awareness,
       Array.from(controlledIds),
-      null
+      null,
     )
     if (doc.conns.size === 0 && persistence !== null) {
       // if persisted, we store state and destroy ydocument
@@ -249,7 +247,7 @@ const send = (doc, conn, m) => {
       m,
       /** @param {any} err */ (err) => {
         err != null && closeConn(doc, conn)
-      }
+      },
     )
   } catch (e) {
     closeConn(doc, conn)
@@ -266,7 +264,7 @@ const pingTimeout = 30000
 exports.setupWSConnection = (
   conn,
   req,
-  { docName = req.url.slice(1).split(`?`)[0], gc = true } = {}
+  { docName = `app-doc`, gc = true } = {},
 ) => {
   conn.binaryType = `arraybuffer`
   // get doc, initialize if it does not exist yet
@@ -276,7 +274,7 @@ exports.setupWSConnection = (
   conn.on(
     `message`,
     /** @param {ArrayBuffer} message */ (message) =>
-      messageListener(conn, doc, new Uint8Array(message))
+      messageListener(conn, doc, new Uint8Array(message)),
   )
 
   // Check if connection is still alive
@@ -320,8 +318,8 @@ exports.setupWSConnection = (
         encoder,
         awarenessProtocol.encodeAwarenessUpdate(
           doc.awareness,
-          Array.from(awarenessStates.keys())
-        )
+          Array.from(awarenessStates.keys()),
+        ),
       )
       send(doc, conn, encoding.toUint8Array(encoder))
     }

@@ -66,11 +66,17 @@ function App() {
             }}
           >
             <Stack space="1">
-              <table style={{ width: 8 * 40 }}>
+              <table style={{ width: 8 * 60 }}>
+                <thead>
+                  <tr>
+                    <td>Type</td>
+                    <td>Time</td>
+                    <td>Creator</td>
+                  </tr>
+                </thead>
                 <tbody>
                   {Object.values(entries)
-                    .sort((a, b) => a.created_at > b.created_at)
-                    .reverse()
+                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
                     .map((entry: Y.Map) => {
                       return (
                         <tr key={entry.id}>

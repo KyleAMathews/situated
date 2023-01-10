@@ -106,12 +106,10 @@ app.post(`/verify`, async function (req, res) {
 })
 
 app.get(`/personal_information`, function (req, res) {
-  console.log(req.session)
   if (!req.session.siwe) {
     res.status(401).json({ message: `You have to first sign_in` })
     return
   }
-  console.log(`User is authenticated!`)
   res.setHeader(`Content-Type`, `text/plain`)
   res.send(
     `You are authenticated and your address is: ${req.session.siwe.address}`,
@@ -161,8 +159,6 @@ const server = app.listen(port, () => {
 })
 
 server.on(`upgrade`, (request, socket, head) => {
-  console.log(`Parsing session from request...`)
-
   sessionParser(request, {}, () => {
     if (!request.session?.siwe?.address) {
       socket.write(`HTTP/1.1 401 Unauthorized\r\n\r\n`)
@@ -170,6 +166,7 @@ server.on(`upgrade`, (request, socket, head) => {
       return
     }
     wsServer.handleUpgrade(request, socket, head, (socket) => {
+      console.log(`handleUpgrade`)
       wsServer.emit(`connection`, socket, request)
     })
   })
