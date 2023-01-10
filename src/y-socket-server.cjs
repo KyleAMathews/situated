@@ -23,7 +23,9 @@ const wsReadyStateClosing = 2 // eslint-disable-line
 const wsReadyStateClosed = 3 // eslint-disable-line
 
 const LMDBPersistence = require(`./y-lmdb.cjs`)
-const persistenceDir = path.resolve(process.cwd(), `.cache/doc.db`)
+const baseDir =
+  process.env.BASE_DATA_DIR || path.resolve(process.cwd(), `.cache`)
+const persistenceDir = path.resolve(baseDir, `doc.db`)
 const gcEnabled = true
 
 /**

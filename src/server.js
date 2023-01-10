@@ -17,7 +17,9 @@ import lowdbStore from 'connect-lowdb'
 
 const LowdbStore = lowdbStore(Session)
 
-const file = path.join(__dirname, `../.cache/db.json`)
+const baseDir =
+  process.env.BASE_DATA_DIR || path.resolve(process.cwd(), `.cache`)
+const file = path.join(baseDir, `db.json`)
 fs.ensureDirSync(path.dirname(file))
 
 // Configure lowdb to write to JSONFile
