@@ -7,6 +7,7 @@ import { rootDoc, awareness } from '../doc-factory'
 import { useAccount } from 'wagmi'
 import { AuthenticationStatus } from '../auth-status'
 import { Heading, Box, Avatar, IconLockClosed, Stack } from 'degen'
+import { groupBy } from 'lodash'
 import { Text } from '../components'
 // import * as Components from "../styles/base-components"
 // import * as styles from "./base-components.css"
@@ -25,8 +26,8 @@ function App() {
     return users[accountInfo.address]
   })
   const authStatus = React.useContext(AuthenticationStatus)
-  const entriesMap = rootDoc.get(`entries`)
-  const entries = useYjsData(entriesMap)
+  const eventsMap = rootDoc.get(`entries`)
+  const events = useYjsData(eventsMap)
   const typesMap = rootDoc.getMap(`types`)
   const eventTypes = useYjsData(typesMap)
 
@@ -42,10 +43,14 @@ function App() {
     }
   }, [authStatus])
 
+  const eventsGroupedByDay = groupBy(Object.values(events), (event) =>
+    new Date(event.created_at).toLocaleDateString(),
+  )
+
   return (
     <div className="App">
       <Box padding="4">
-        <Stack>
+        <Stack space="6">
           <Stack direction="horizontal" align="center">
             <Text>
               <Link to="/">Life Logger</Link>
@@ -68,37 +73,40 @@ function App() {
               display: location.pathname === `/` ? `block` : `none`,
             }}
           >
-            <Stack space="1">
-              <table style={{ width: 8 * 60 }}>
-                <thead>
-                  <tr>
-                    <td>
-                      <Text>Type</Text>
-                    </td>
-                    <td>Time</td>
-                    <td>Creator</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.values(entries)
-                    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
-                    .map((entry: Y.Map) => {
-                      return (
-                        <tr key={entry.id}>
-                          <td>{entry.type}</td>
-                          <td>
-                            {new Date(entry.created_at).toLocaleDateString()}
-                            {` `}
-                            {new Date(entry.created_at).toLocaleTimeString()}
-                          </td>
-                          <td>
-                            {users.get(entry.creator)?.name || entry.creator}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
+            <Stack space="4">
+              <Text>Events</Text>
+              {Object.keys(eventsGroupedByDay)
+                .sort()
+                .map((day) => {
+                  const dayEvents = eventsGroupedByDay[day]
+                  dayEvents.sort((a, b) =>
+                    a.created_at < b.created_at ? 1 : -1,
+                  )
+                  return (
+                    <Stack space="2">
+                      <Text>{day}</Text>
+                      {dayEvents.map((event) => {
+                        const user = users.get(event.creator)
+                        return (
+                          <Stack direction="horizontal" space="2">
+                            <Avatar
+                              address={user?.address}
+                              size="3"
+                              src={user?.avatar}
+                            />
+                            <Text>
+                              {new Date(event.created_at).toLocaleTimeString(
+                                navigator.language,
+                                { timeStyle: `short` },
+                              )}
+                            </Text>
+                            <Text>{event.type}</Text>
+                          </Stack>
+                        )
+                      })}
+                    </Stack>
+                  )
+                })}
             </Stack>
           </div>
           <Box

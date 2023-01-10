@@ -31,6 +31,7 @@ specifiers:
   fs-extra: ^11.1.0
   lib0: ^0.2.58
   lmdb: ^2.7.3
+  lodash: ^4.17.21
   lodash.debounce: ^4.0.8
   lowdb: ^5.0.5
   lowdb-session-store: ^1.1.1
@@ -62,6 +63,7 @@ dependencies:
   fs-extra: 11.1.0
   lib0: 0.2.58
   lmdb: 2.7.3
+  lodash: 4.17.21
   lodash.debounce: 4.0.8
   lowdb: 5.0.5
   lowdb-session-store: 1.1.1
@@ -4141,7 +4143,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}

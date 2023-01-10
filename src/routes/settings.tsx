@@ -69,6 +69,7 @@ function Settings() {
                 console.log(e)
                 const profile = {
                   ...awareness.getLocalState(),
+                  address: accountInfo.address,
                   name: e.target.name.value,
                   avatar: e.target.avatar.value,
                 }
