@@ -125,7 +125,7 @@ const levelGet = async (db, key) => {
  * @param {Uint8Array} val
  */
 const levelPut = async (db, key, val) => {
-  console.log(`levelPut`, { key, val })
+  console.log(`lmdb.put`, { key })
   return db.put(key, Buffer.from(val))
 }
 
@@ -142,7 +142,6 @@ exports.getLevelBulkData = (db, opts) =>
      * @type {Array<any>} result
      */
     const result = []
-    console.trace()
     const { keys, values, ...options } = opts
     if (options.reverse) {
       const end = options.end
@@ -150,9 +149,7 @@ exports.getLevelBulkData = (db, opts) =>
       options.start = end
       options.end = start
     }
-    console.log(`getLevelBulkData`, { options })
     db.getRange(options).forEach(({ key, value }) => {
-      console.log({ key, value: value.toString() })
       if (opts.keys && !opts.values) {
         result.push(key)
       } else if (!opts.keys && opts.values) {
@@ -162,7 +159,6 @@ exports.getLevelBulkData = (db, opts) =>
       }
     })
 
-    console.log(`result`, result)
     resolve(result)
   })
 
@@ -211,7 +207,6 @@ exports.getCurrentUpdateClock = (db, docName) =>
       limit: 1,
     })
     .then((keys) => {
-      console.log(`getCurrentUpdateClock`, { keys, docName })
       if (keys.length === 0) {
         return -1
       } else {
@@ -374,7 +369,6 @@ const readStateVector = async (db, docName) => {
  * @return {Promise<number>} returns the clock of the flushed doc
  */
 const flushDocument = async (db, docName, stateAsUpdate, stateVector) => {
-  console.log(`flushDocument`)
   const clock = await storeUpdate(db, docName, stateAsUpdate)
   await writeStateVector(db, docName, stateVector, clock)
   await clearUpdatesRange(db, docName, 0, clock) // intentionally not waiting for the promise to resolve!
@@ -388,9 +382,7 @@ const flushDocument = async (db, docName, stateAsUpdate, stateVector) => {
  * @return {Promise<number>} Returns the clock of the stored update
  */
 const storeUpdate = async (db, docName, update) => {
-  console.log(`storeUpdate`, update)
   const clock = await exports.getCurrentUpdateClock(db, docName)
-  console.log({ clock })
   if (clock === -1) {
     // make sure that a state vector is aways written, so we can search for available documents
     const ydoc = new Y.Doc()
@@ -403,7 +395,6 @@ const storeUpdate = async (db, docName, update) => {
     createDocumentUpdateKey(docName, clock + 1),
     update,
   )
-  console.log({ result })
   return clock + 1
 }
 
@@ -464,7 +455,6 @@ module.exports = class LeveldbPersistence {
   getYDoc(docName) {
     return this._transact(async (db) => {
       const updates = await exports.getLevelUpdates(db, docName)
-      console.log({ docName, updates })
       const ydoc = new Y.Doc()
       ydoc.transact(() => {
         for (let i = 0; i < updates.length; i++) {
