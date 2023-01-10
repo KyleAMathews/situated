@@ -2,6 +2,11 @@
   "name": "life-logger",
   "version": "0.0.0",
   "dependencies": {
+    "@remirror/core": "^2.0.11",
+    "@remirror/messages": "^2.0.2",
+    "@remirror/pm": "^2.0.3",
+    "@remirror/react": "^2.0.24",
+    "@remirror/react-editors": "^1.0.24",
     "connect-lowdb": "^2.0.0",
     "cors": "^2.8.5",
     "degen": "^0.0.118",
@@ -14,9 +19,11 @@
     "lodash.debounce": "^4.0.8",
     "lowdb": "^5.0.5",
     "lowdb-session-store": "^1.1.1",
+    "remirror": "^2.0.23",
     "siwe": "^1.1.6",
     "use-sync-external-store": "^1.2.0",
     "ws": "^8.11.0",
+    "y-prosemirror": "^1.2.0",
     "y-protocols": "^1.0.5",
     "yjs": "^13.5.44"
   },

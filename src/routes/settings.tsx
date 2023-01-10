@@ -75,7 +75,10 @@ function Settings() {
                 }
                 console.log({ profile })
                 users.set(accountInfo.address, profile)
-                awareness.setLocalState(profile)
+                awareness.setLocalState({
+                  ...profile,
+                  user: { name: profile.name },
+                })
               }}
             >
               <Stack space="1">

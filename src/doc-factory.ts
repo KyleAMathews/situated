@@ -61,6 +61,7 @@ export async function loader() {
 }
 
 export const awareness = wsProvider.awareness
+export const provider = wsProvider
 
 wsProvider.on(`status`, (event) => {
   console.log(`wsProvider status`, event.status) // logs "connected" or "disconnected"
@@ -83,7 +84,7 @@ export function createEntry({
     entry.set(`id`, id)
     entry.set(`created_at`, new Date().toJSON())
     entry.set(`type`, type)
-    entry.set(`body`, new Y.Text())
+    entry.set(`body`, new Y.XmlFragment())
     entry.set(`creator`, walletAddress)
     entries.set(id, entry)
   })
