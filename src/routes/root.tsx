@@ -1,15 +1,16 @@
 import * as React from 'react'
 import * as Y from 'yjs'
-import { Outlet, Link, Form, useNavigate, useLocation } from 'react-router-dom'
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
+import { createEntry } from '../doc-factory'
 import '../App.css'
 import { useSelf, useYjsData, useUsers } from '../hooks'
-import { rootDoc, awareness, provider } from '../doc-factory'
 import { useAccount } from 'wagmi'
 import { AuthenticationStatus } from '../auth-status'
 import { Heading, Box, Avatar, IconClose, Stack } from 'degen'
 import { groupBy } from 'lodash'
 import { Text } from '../components'
 import Event from '../components/event'
+import { useYjs } from '../situated'
 // import * as Components from "../styles/base-components"
 // import * as styles from "./base-components.css"
 import { fontStyles } from '../styles/typography.css'
@@ -18,22 +19,26 @@ import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
 
 function App() {
+  const {
+    provider,
+    provider: { awareness },
+    rootDoc,
+  } = useYjs()
+  // Router info
   const navigate = useNavigate()
   const location = useLocation()
+
   const accountInfo = useAccount()
-  const users = rootDoc.getMap(`users`)
   const usersOnline = useUsers(awareness, (users) => {
     return users.size
   })
-  const profile = useYjsData(users, (users) => {
+  const profile = useYjsData(rootDoc.getMap(`users`), (users) => {
     return users[accountInfo?.address]
   })
-  const authStatus = React.useContext(AuthenticationStatus)
-  const eventsMap = rootDoc.get(`entries`)
-  const events = useYjsData(eventsMap)
-  const typesMap = rootDoc.getMap(`types`)
-  const eventTypes = useYjsData(typesMap)
+  const events = useYjsData(rootDoc.getMap(`entries`))
+  const eventTypes = useYjsData(rootDoc.getMap(`types`))
 
+  const authStatus = React.useContext(AuthenticationStatus)
   // Redirect to login if not logged in.
   React.useEffect(() => {
     if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
@@ -85,7 +90,15 @@ function App() {
                 }}
                 width="64"
               >
-                <Form method="post">
+                <form
+                  method="post"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    const walletAddress = e.target[0].value
+                    const typeId = e.target[1].value
+                    createEntry({ rootDoc, walletAddress, typeId })
+                  }}
+                >
                   <Stack space="2">
                     <h3 className={fontStyles.INTER_MED}>Create event</h3>
                     <input
@@ -105,7 +118,7 @@ function App() {
                       Submit
                     </button>
                   </Stack>
-                </Form>
+                </form>
               </Box>
               <h3 className={fontStyles.INTER_LARGE}>Events</h3>
               {Object.keys(eventsGroupedByDay)
@@ -116,7 +129,7 @@ function App() {
                     a.created_at < b.created_at ? 1 : -1,
                   )
                   return (
-                    <Stack space="2">
+                    <Stack space="2" key={day}>
                       <Text>{day}</Text>
                       {dayEvents.map((event) => {
                         return (
@@ -124,9 +137,9 @@ function App() {
                             key={event.id}
                             event={event}
                             provider={provider}
-                            eventsMap={eventsMap}
-                            typesMap={typesMap}
-                            users={users}
+                            eventsMap={rootDoc.getMap(`entries`)}
+                            typesMap={rootDoc.getMap(`types`)}
+                            profile={profile}
                           />
                         )
                       })}

@@ -4,14 +4,13 @@ import Editor from './editor'
 import { Text } from '../components'
 import { Box, Avatar, IconClose, IconChevronDown, Stack } from 'degen'
 
-function Event({ eventsMap, typesMap, provider, event, users }) {
+function Event({ eventsMap, typesMap, provider, event, profile }) {
   const [isOpen, setIsOpen] = React.useState(false)
-  const user = users.get(event.creator)
   return (
     <Stack space="2">
       <Box onClick={() => setIsOpen(!isOpen)} cursor="pointer">
         <Stack direction="horizontal" space="2">
-          <Avatar address={user?.address} size="3" src={user?.avatar} />
+          <Avatar address={profile?.address} size="3" src={profile?.avatar} />
           <Text>
             {new Date(event.created_at).toLocaleTimeString(navigator.language, {
               timeStyle: `short`,

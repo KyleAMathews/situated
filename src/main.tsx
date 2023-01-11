@@ -5,8 +5,7 @@ import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/root'
-import { action as rootAction } from './routes/root.action'
-import { loader as docLoader } from './doc-factory'
+import { SituatedProvider, loader as docLoader } from './situated'
 import ErrorPage from './error-page'
 import '@rainbow-me/rainbowkit/styles.css'
 import {
@@ -124,7 +123,6 @@ function Auth({ children }) {
   )
 }
 
-// const LazyEntry = lazy(() => import(`./routes/entry`))
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 const LazySettings = lazy(() => import(`./routes/settings`))
@@ -134,15 +132,9 @@ const router = createBrowserRouter([
   {
     path: `/`,
     element: <Root />,
-    action: rootAction,
     loader: docLoader,
     errorElement: <ErrorPage />,
     children: [
-      // {
-      // path: `entries/:entryId`,
-      // element: <LazyEntry />,
-      // loader: docLoader,
-      // },
       {
         path: `settings`,
         element: <LazySettings />,
@@ -168,13 +160,16 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById(`root`) as HTMLElement).render(
-  <ThemeProvider>
-    <WagmiConfig client={wagmiClient}>
-      <Auth>
-        <RainbowKitProvider chains={chains} modalSize="compact">
-          <RouterProvider router={router} />
-        </RainbowKitProvider>
-      </Auth>
-    </WagmiConfig>
-  </ThemeProvider>,
+  <SituatedProvider>
+    <ThemeProvider>
+      <WagmiConfig client={wagmiClient}>
+        <Auth>
+          <RainbowKitProvider chains={chains} modalSize="compact">
+            <RouterProvider router={router} />
+          </RainbowKitProvider>
+        </Auth>
+      </WagmiConfig>
+    </ThemeProvider>
+    ,
+  </SituatedProvider>,
 )

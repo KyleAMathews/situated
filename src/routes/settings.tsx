@@ -1,27 +1,22 @@
 import * as React from 'react'
 import { useAccount } from 'wagmi'
 import { useYjsData } from '../hooks'
-import { rootDoc, awareness } from '../doc-factory'
+import { useYjs } from '../situated'
 import { nanoid } from 'nanoid'
 import { H2, H3 } from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
 import * as styles from '../styles/settings.css'
 import { Text } from '../components'
-import {
-  Heading,
-  Button,
-  Card,
-  Box,
-  Avatar,
-  IconLockClosed,
-  Stack,
-} from 'degen'
+import { Heading, Box, Stack } from 'degen'
 
 function Settings() {
+  const {
+    rootDoc,
+    provider: { awareness },
+  } = useYjs()
   const accountInfo = useAccount()
+  const eventTypes = useYjsData(rootDoc.getMap(`types`))
   const users = rootDoc.getMap(`users`)
-  const typesMap = rootDoc.getMap(`types`)
-  const eventTypes = useYjsData(typesMap)
 
   return (
     <Stack>
@@ -40,7 +35,7 @@ function Settings() {
               onSubmit={(e) => {
                 e.preventDefault()
                 console.log(e)
-                typesMap.set(nanoid(), {
+                rootDoc.getMap(`types`).set(nanoid(), {
                   name: e.target.name.value,
                   walletAddress: e.target.wallet.value,
                 })
