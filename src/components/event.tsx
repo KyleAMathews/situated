@@ -4,7 +4,7 @@ import Editor from './editor'
 import { Text } from '../components'
 import { Box, Avatar, IconClose, IconChevronDown, Stack } from 'degen'
 
-function Event({ eventsMap, provider, event, users }) {
+function Event({ eventsMap, typesMap, provider, event, users }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const user = users.get(event.creator)
   return (
@@ -17,7 +17,7 @@ function Event({ eventsMap, provider, event, users }) {
               timeStyle: `short`,
             })}
           </Text>
-          <Text>{event.type}</Text>
+          <Text>{typesMap.get(event.typeId).name}</Text>
           {isOpen ? <IconClose size={3} /> : <IconChevronDown size={3} />}
         </Stack>
       </Box>

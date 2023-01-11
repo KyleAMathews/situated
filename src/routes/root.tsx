@@ -34,8 +34,6 @@ function App() {
   const typesMap = rootDoc.getMap(`types`)
   const eventTypes = useYjsData(typesMap)
 
-  console.log(`render`)
-
   // Redirect to login if not logged in.
   React.useEffect(() => {
     if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
@@ -94,9 +92,9 @@ function App() {
                       name="wallet"
                       value={accountInfo.address}
                     />
-                    <select name="type" className={fontStyles.INTER_SMALL}>
-                      {Object.values(eventTypes).map((type) => (
-                        <option key={type.name} value={type.name}>
+                    <select name="typeId" className={fontStyles.INTER_SMALL}>
+                      {Object.entries(eventTypes).map(([id, type]) => (
+                        <option key={type.name} value={id}>
                           {type.name}
                         </option>
                       ))}
@@ -125,6 +123,7 @@ function App() {
                             event={event}
                             provider={provider}
                             eventsMap={eventsMap}
+                            typesMap={typesMap}
                             users={users}
                           />
                         )

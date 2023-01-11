@@ -72,18 +72,17 @@ window.rootDoc = rootDoc
 
 export function createEntry({
   walletAddress,
-  type,
+  typeId,
 }: {
   walletAddress: string
-  type: string
+  typeId: string
 }) {
   const entry = new Y.Map()
   const id = nanoid()
-  console.log({ id })
   rootDoc.transact(() => {
     entry.set(`id`, id)
     entry.set(`created_at`, new Date().toJSON())
-    entry.set(`type`, type)
+    entry.set(`typeId`, typeId)
     entry.set(`body`, new Y.XmlFragment())
     entry.set(`creator`, walletAddress)
     entries.set(id, entry)

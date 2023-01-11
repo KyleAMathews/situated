@@ -3,7 +3,7 @@ export async function action({ request }) {
   const formData = await request.formData()
   const entry = createEntry({
     walletAddress: formData.get(`wallet`),
-    type: formData.get(`type`),
+    typeId: formData.get(`typeId`),
   })
   return { entry }
 }
