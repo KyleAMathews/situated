@@ -5,7 +5,6 @@ import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/root'
-// import Typography from "typography"
 import { action as rootAction } from './routes/root.action'
 import { loader as docLoader } from './doc-factory'
 import ErrorPage from './error-page'
@@ -125,26 +124,11 @@ function Auth({ children }) {
   )
 }
 
-// const typography = new Typography({
-// baseFontSize: `18px`,
-// baseLineHeight: 1.45,
-// headerFontFamily: [
-// `Avenir Next`,
-// `Helvetica Neue`,
-// `Segoe UI`,
-// `Helvetica`,
-// `Arial`,
-// `sans-serif`,
-// ],
-// bodyFontFamily: [`Georgia`, `serif`],
-// })
-
-// typography.injectStyles()
-
 // const LazyEntry = lazy(() => import(`./routes/entry`))
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 const LazySettings = lazy(() => import(`./routes/settings`))
+const LazyMigrate = lazy(() => import(`./routes/migrate`))
 
 const router = createBrowserRouter([
   {
@@ -173,6 +157,11 @@ const router = createBrowserRouter([
         path: `/styleguide`,
         element: <LazyStyleGuide />,
         // loader: entryLoader,
+      },
+      {
+        path: `/migrate`,
+        element: <LazyMigrate />,
+        loader: docLoader,
       },
     ],
   },
