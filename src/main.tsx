@@ -141,7 +141,7 @@ function Auth({ children }) {
 
 // typography.injectStyles()
 
-const LazyEntry = lazy(() => import(`./routes/entry`))
+// const LazyEntry = lazy(() => import(`./routes/entry`))
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 const LazySettings = lazy(() => import(`./routes/settings`))
@@ -154,11 +154,11 @@ const router = createBrowserRouter([
     loader: docLoader,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: `entries/:entryId`,
-        element: <LazyEntry />,
-        loader: docLoader,
-      },
+      // {
+      // path: `entries/:entryId`,
+      // element: <LazyEntry />,
+      // loader: docLoader,
+      // },
       {
         path: `settings`,
         element: <LazySettings />,
