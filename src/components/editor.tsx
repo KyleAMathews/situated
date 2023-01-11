@@ -1,4 +1,5 @@
 import 'remirror/styles/all.css'
+import './editor.css'
 
 import React from 'react'
 import { AnnotationExtension, PlaceholderExtension } from 'remirror/extensions'

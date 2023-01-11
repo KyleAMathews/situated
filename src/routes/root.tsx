@@ -93,6 +93,7 @@ function App() {
                       {dayEvents.map((event) => {
                         return (
                           <Event
+                            key={event.id}
                             event={event}
                             provider={provider}
                             eventsMap={eventsMap}

@@ -8,7 +8,7 @@ function Event({ eventsMap, provider, event, users }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const user = users.get(event.creator)
   return (
-    <Box key={event.id}>
+    <Stack space="2">
       <Box onClick={() => setIsOpen(!isOpen)} cursor="pointer">
         <Stack direction="horizontal" space="2">
           <Avatar address={user?.address} size="3" src={user?.avatar} />
@@ -30,7 +30,7 @@ function Event({ eventsMap, provider, event, users }) {
             />
           </Box>
         )}
-    </Box>
+    </Stack>
   )
 }
 
