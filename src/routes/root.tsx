@@ -19,16 +19,18 @@ import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
 
 function App() {
-  const {
-    provider,
-    provider: { awareness },
-    rootDoc,
-  } = useYjs()
   // Router info
   const navigate = useNavigate()
   const location = useLocation()
 
   const accountInfo = useAccount()
+
+  // YJS data
+  const {
+    provider,
+    provider: { awareness },
+    rootDoc,
+  } = useYjs()
   const usersOnline = useUsers(awareness, (users) => {
     return users.size
   })
@@ -139,7 +141,7 @@ function App() {
                             provider={provider}
                             eventsMap={rootDoc.getMap(`entries`)}
                             typesMap={rootDoc.getMap(`types`)}
-                            profile={profile}
+                            users={rootDoc.get(`users`)}
                           />
                         )
                       })}
