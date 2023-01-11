@@ -50,6 +50,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "ethers": "^5.7.2",
+    "husky": "^8.0.3",
     "monaco-editor": "^0.34.1",
     "nanoid": "^4.0.0",
     "nodemon": "^2.0.20",
@@ -70,7 +71,8 @@
     "dev": "ALLOWED_ADDRESSES=0xeBCaAC47e92207cda75dd53C234815279DeD5f5C,0x1A779cb76827D7818157673b02D426A9D003658c concurrently 'vite --host' 'nodemon src/server.js'",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "preview": "vite preview",
-    "start": "NODE_ENV=production node src/server.js"
+    "start": "NODE_ENV=production node src/server.js",
+    "prepare": "husky install"
   },
   "type": "module"
 }

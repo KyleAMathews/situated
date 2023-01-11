@@ -34,6 +34,7 @@ specifiers:
   express: ^4.18.2
   express-session: ^1.17.3
   fs-extra: ^11.1.0
+  husky: ^8.0.3
   lib0: ^0.2.58
   lmdb: ^2.7.3
   lodash: ^4.17.21
@@ -110,6 +111,7 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_xtjuwoibeoaqavcvkna3ocxxbu
   eslint-plugin-react: 7.31.11_eslint@8.31.0
   ethers: 5.7.2
+  husky: 8.0.3
   monaco-editor: 0.34.1
   nanoid: 4.0.0
   nodemon: 2.0.20
@@ -5794,6 +5796,12 @@ packages:
     resolution: {integrity: sha512-Fl70vYtsAFb/C06PTS9dZBo7ihau+Tu/DNCk/OyHhea07S+aeMWpFFkUaXRa8fI+ScZbEI8dfSxwY7gxZ9SAVQ==}
     dependencies:
       ms: 2.1.3
+    dev: true
+
+  /husky/8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /hyphenate-style-name/1.0.4:

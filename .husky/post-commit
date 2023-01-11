@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+commitCount=`git rev-list --all --count`
+
+echo "COMMIT_COUNT=$commitCount" > .env
+
+ git commit --amend -C HEAD -n .env
