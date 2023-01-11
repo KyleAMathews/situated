@@ -79,6 +79,34 @@ function App() {
             }}
           >
             <Stack space="4">
+              <Box
+                style={{
+                  display: location.pathname === `/` ? `block` : `none`,
+                }}
+                width="64"
+              >
+                <Form method="post">
+                  <Stack space="2">
+                    <h3 className={fontStyles.INTER_MED}>Create event</h3>
+                    <input
+                      type="hidden"
+                      id="wallet"
+                      name="wallet"
+                      value={accountInfo.address}
+                    />
+                    <select name="type" className={fontStyles.INTER_SMALL}>
+                      {Object.values(eventTypes).map((type) => (
+                        <option key={type.name} value={type.name}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button className={fontStyles.INTER_SMALL} type="submit">
+                      Submit
+                    </button>
+                  </Stack>
+                </Form>
+              </Box>
               <h3 className={fontStyles.INTER_LARGE}>Events</h3>
               {Object.keys(eventsGroupedByDay)
                 .sort()
@@ -106,34 +134,6 @@ function App() {
                 })}
             </Stack>
           </div>
-          <Box
-            style={{
-              display: location.pathname === `/` ? `block` : `none`,
-            }}
-            width="64"
-          >
-            <Form method="post">
-              <Stack space="2">
-                <h3 className={fontStyles.INTER_LARGE}>New event</h3>
-                <input
-                  type="hidden"
-                  id="wallet"
-                  name="wallet"
-                  value={accountInfo.address}
-                />
-                <select name="type">
-                  {Object.values(eventTypes).map((type) => (
-                    <option key={type.name} value={type.name}>
-                      {type.name}
-                    </option>
-                  ))}
-                </select>
-                <button size="small" type="submit">
-                  Submit
-                </button>
-              </Stack>
-            </Form>
-          </Box>
           <React.Suspense>
             <Outlet />
           </React.Suspense>
