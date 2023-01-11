@@ -5,4 +5,6 @@ commitCount=`git rev-list --all --count`
 
 echo "VITE_COMMIT_COUNT=$commitCount" > .env
 
-git commit --amend -C HEAD -n .env
+git add .env
+
+exit 0
