@@ -23,13 +23,28 @@ function Event({ eventsMap, provider, event, users }) {
       </Box>
       {isOpen &&
         eventsMap.get(event.id).get(`body`) instanceof Y.XmlFragment && (
-          <Box maxWidth="144">
+          <Box maxWidth="180">
             <Editor
               provider={provider}
               xmlType={eventsMap.get(event.id).get(`body`)}
             />
           </Box>
         )}
+      {isOpen && (
+        <Box
+          width="180"
+          onClick={() => {
+            const result = confirm(
+              `Are you sure you want to delete this event? It'll be gone forever.`,
+            )
+            if (result) {
+              eventsMap.delete(event.id)
+            }
+          }}
+        >
+          <button>delete</button>
+        </Box>
+      )}
     </Stack>
   )
 }
