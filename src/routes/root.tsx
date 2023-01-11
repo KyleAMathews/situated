@@ -109,7 +109,7 @@ function App() {
               </Box>
               <h3 className={fontStyles.INTER_LARGE}>Events</h3>
               {Object.keys(eventsGroupedByDay)
-                .sort()
+                .sort((a, b) => (new Date(a) < new Date(b) ? 1 : -1))
                 .map((day) => {
                   const dayEvents = eventsGroupedByDay[day]
                   dayEvents.sort((a, b) =>
