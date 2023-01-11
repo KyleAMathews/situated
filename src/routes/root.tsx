@@ -50,7 +50,6 @@ function App() {
     new Date(event.created_at).toLocaleDateString(),
   )
 
-  console.log(import.meta.env)
   return (
     <div className="App">
       <Box padding="4">
