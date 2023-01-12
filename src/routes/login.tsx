@@ -37,10 +37,10 @@ const BACKEND_ADDR = new URL(
   `${location.protocol}//${location.hostname}:${port}`,
 ).href
 
+let siweModule
 function Login(props) {
   const accountInfo = useAccount()
 
-  let siweModule
   const { authenticationStatus, setAuthenticationStatus, setAccountInfo } =
     React.useContext(AuthenticationStatus)
   React.useEffect(() => {
@@ -58,19 +58,27 @@ function Login(props) {
         credentials: `include`,
       })
 
-      return await response.text()
+      const nonce = await response.text()
+      console.log({ nonce })
+      return nonce
     },
 
     createMessage: ({ nonce, address, chainId }) => {
-      return new siweModule.SiweMessage({
-        domain: window.location.host,
-        address,
-        statement: `Sign in with Ethereum to the app.`,
-        uri: window.location.origin,
-        version: `1`,
-        chainId,
-        nonce,
-      })
+      console.log(`createMessage`, { nonce, address, chainId })
+      try {
+        const message = new siweModule.SiweMessage({
+          domain: window.location.host,
+          address,
+          statement: `Sign in with Ethereum to the app.`,
+          uri: window.location.origin,
+          version: `1`,
+          chainId,
+          nonce,
+        })
+        return message
+      } catch (e) {
+        console.log(e)
+      }
     },
 
     getMessageBody: ({ message }) => {
@@ -94,22 +102,23 @@ function Login(props) {
     },
 
     signOut: async () => {
+      localStorage.clear()
       await fetch(`${BACKEND_ADDR}logout`)
     },
   })
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} modalSize="compact">
-        <RainbowKitAuthenticationProvider
-          adapter={authenticationAdapter}
-          status={authenticationStatus}
-        >
+      <RainbowKitAuthenticationProvider
+        adapter={authenticationAdapter}
+        status={authenticationStatus}
+      >
+        <RainbowKitProvider chains={chains} modalSize="compact">
           <div>
             <h1>Login</h1>
             <ConnectButton />
           </div>
-        </RainbowKitAuthenticationProvider>
-      </RainbowKitProvider>
+        </RainbowKitProvider>
+      </RainbowKitAuthenticationProvider>
     </WagmiConfig>
   )
 }

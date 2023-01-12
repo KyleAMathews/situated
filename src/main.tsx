@@ -28,6 +28,7 @@ function Auth({ children }) {
         credentials: `include`,
       })
       if (!res.ok) {
+        localStorage.clear()
         setAuthenticationStatus(`unauthenticated`)
       } else {
         setAuthenticationStatus(`authenticated`)
