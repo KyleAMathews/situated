@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Y from 'yjs'
 import { WebsocketProvider } from '../y-socket-client'
 import * as awarenessProtocol from 'y-protocols/awareness.js'
+import { useLocalStorage } from 'usehooks-ts'
 
 import { YJSStateContext } from './state-context'
 const port = import.meta.env.PROD ? location.port : `3000`
@@ -54,8 +55,37 @@ window.rootDoc = rootDoc
 // provider
 //
 export function SituatedProvider({ children }) {
+  const [authenticationStatus, setAuthenticationStatus] = React.useState<
+    `loading` | `authenticated` | `unauthenticated`
+  >(`loading`)
+  const [accountInfo, setAccountInfo] = useLocalStorage(`accountInfo`, {})
+
+  React.useEffect(() => {
+    const fetchAuthStatus = async () => {
+      const res = await fetch(`${BACKEND_ADDR}personal_information`, {
+        credentials: `include`,
+      })
+      if (!res.ok) {
+        localStorage.clear()
+        setAuthenticationStatus(`unauthenticated`)
+      } else {
+        setAuthenticationStatus(`authenticated`)
+      }
+    }
+    fetchAuthStatus()
+  }, [])
+
   return (
-    <YJSStateContext.Provider value={{ rootDoc, provider: wsProvider }}>
+    <YJSStateContext.Provider
+      value={{
+        rootDoc,
+        provider: wsProvider,
+        authenticationStatus,
+        setAuthenticationStatus,
+        accountInfo,
+        setAccountInfo,
+      }}
+    >
       {children}
     </YJSStateContext.Provider>
   )

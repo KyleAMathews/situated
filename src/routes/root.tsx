@@ -4,12 +4,11 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createEntry } from '../doc-factory'
 import '../App.css'
 import { useSelf, useYjsData, useUsers } from '../hooks'
-import { AuthenticationStatus } from '../auth-status'
 import { Heading, Box, Avatar, IconClose, Stack } from 'degen'
 import { groupBy } from 'lodash'
 import { Text } from '../components'
 import Event from '../components/event'
-import { useYjs } from '../situated'
+import { useYjs, useAuth } from '../situated'
 // import * as Components from "../styles/base-components"
 // import * as styles from "./base-components.css"
 import { fontStyles } from '../styles/typography.css'
@@ -22,8 +21,7 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const { authenticationStatus, accountInfo } =
-    React.useContext(AuthenticationStatus)
+  const { authenticationStatus, accountInfo } = useAuth()
 
   // YJS data
   const {

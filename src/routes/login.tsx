@@ -11,8 +11,8 @@ import { rainbowWallet } from '@rainbow-me/rainbowkit/wallets'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { AuthenticationStatus } from '../auth-status'
 import { useAccount } from 'wagmi'
+import { useAuth } from '../situated'
 
 const { chains, provider } = configureChains(
   [mainnet],
@@ -42,7 +42,7 @@ function Login(props) {
   const accountInfo = useAccount()
 
   const { authenticationStatus, setAuthenticationStatus, setAccountInfo } =
-    React.useContext(AuthenticationStatus)
+    useAuth()
   React.useEffect(() => {
     if (accountInfo) {
       const { address, ...otherInfo } = accountInfo

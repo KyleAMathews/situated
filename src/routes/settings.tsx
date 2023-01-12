@@ -1,20 +1,19 @@
 import * as React from 'react'
 import { useYjsData } from '../hooks'
-import { useYjs } from '../situated'
+import { useYjs, useAuth } from '../situated'
 import { nanoid } from 'nanoid'
 import { H2, H3 } from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
 import * as styles from '../styles/settings.css'
 import { Text } from '../components'
 import { Heading, Box, Stack } from 'degen'
-import { AuthenticationStatus } from '../auth-status'
 
 function Settings() {
   const {
     rootDoc,
     provider: { awareness },
   } = useYjs()
-  const { accountInfo } = React.useContext(AuthenticationStatus)
+  const { accountInfo } = useAuth()
   const eventTypes = useYjsData(rootDoc.getMap(`types`))
   const users = rootDoc.getMap(`users`)
 

@@ -223,6 +223,8 @@ exports.getCurrentUpdateClock = (db, docName) =>
 const clearRange = async (db, gte, lt) => {
   /* istanbul ignore else */
   if (db.supports.clear) {
+    console.log(`clear()`)
+    console.trace()
     await db.clear({ gte, lt })
   } else {
     const keys = await exports.getLevelBulkData(db, {
@@ -627,6 +629,8 @@ module.exports = class LeveldbPersistence {
    * Delete all data in database.
    */
   clearAll() {
+    console.log(`clearAll()`)
+    console.trace()
     return this._transact(async (db) => db.clear())
   }
 }
