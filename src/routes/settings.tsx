@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useAccount } from 'wagmi'
 import { useYjsData } from '../hooks'
 import { useYjs } from '../situated'
 import { nanoid } from 'nanoid'
@@ -8,13 +7,14 @@ import { fontStyles } from '../styles/typography.css'
 import * as styles from '../styles/settings.css'
 import { Text } from '../components'
 import { Heading, Box, Stack } from 'degen'
+import { AuthenticationStatus } from '../auth-status'
 
 function Settings() {
   const {
     rootDoc,
     provider: { awareness },
   } = useYjs()
-  const accountInfo = useAccount()
+  const { accountInfo } = React.useContext(AuthenticationStatus)
   const eventTypes = useYjsData(rootDoc.getMap(`types`))
   const users = rootDoc.getMap(`users`)
 
@@ -34,7 +34,6 @@ function Settings() {
               method="post"
               onSubmit={(e) => {
                 e.preventDefault()
-                console.log(e)
                 rootDoc.getMap(`types`).set(nanoid(), {
                   name: e.target.name.value,
                   walletAddress: e.target.wallet.value,
@@ -61,14 +60,12 @@ function Settings() {
               method="post"
               onSubmit={(e) => {
                 e.preventDefault()
-                console.log(e)
                 const profile = {
                   ...awareness.getLocalState(),
                   address: accountInfo.address,
                   name: e.target.name.value,
                   avatar: e.target.avatar.value,
                 }
-                console.log({ profile })
                 users.set(accountInfo.address, profile)
                 awareness.setLocalState({
                   ...profile,

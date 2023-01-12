@@ -4,7 +4,6 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createEntry } from '../doc-factory'
 import '../App.css'
 import { useSelf, useYjsData, useUsers } from '../hooks'
-import { useAccount } from 'wagmi'
 import { AuthenticationStatus } from '../auth-status'
 import { Heading, Box, Avatar, IconClose, Stack } from 'degen'
 import { groupBy } from 'lodash'
@@ -23,7 +22,8 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const accountInfo = useAccount()
+  const { authenticationStatus, accountInfo } =
+    React.useContext(AuthenticationStatus)
 
   // YJS data
   const {
@@ -40,18 +40,20 @@ function App() {
   const events = useYjsData(rootDoc.getMap(`entries`))
   const eventTypes = useYjsData(rootDoc.getMap(`types`))
 
-  const authStatus = React.useContext(AuthenticationStatus)
   // Redirect to login if not logged in.
   React.useEffect(() => {
-    if (authStatus === `unauthenticated` && location.pathname !== `/login`) {
+    if (
+      authenticationStatus === `unauthenticated` &&
+      location.pathname !== `/login`
+    ) {
       navigate(`/login`)
-    } else if (authStatus === `authenticated`) {
+    } else if (authenticationStatus === `authenticated`) {
       awareness.setLocalState({
         ...awareness.getLocalState(),
         online: true,
       })
     }
-  }, [authStatus])
+  }, [authenticationStatus])
 
   const eventsGroupedByDay = groupBy(Object.values(events), (event) =>
     new Date(event.created_at).toLocaleDateString(),
@@ -68,10 +70,10 @@ function App() {
               </Link>
             </Text>
             <Text size="extraSmall">
-              {profile?.name || accountInfo.address}
+              {profile?.name || accountInfo?.address}
             </Text>
             <Avatar
-              address={accountInfo.address}
+              address={accountInfo?.address}
               size="6"
               src={profile?.avatar}
             />
@@ -107,7 +109,7 @@ function App() {
                       type="hidden"
                       id="wallet"
                       name="wallet"
-                      value={accountInfo.address}
+                      value={accountInfo?.address}
                     />
                     <select name="typeId" className={fontStyles.INTER_SMALL}>
                       {Object.entries(eventTypes).map(([id, type]) => (

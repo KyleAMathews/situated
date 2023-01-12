@@ -54,6 +54,7 @@ specifiers:
   typescript: ^4.9.4
   typography: ^0.16.21
   use-sync-external-store: ^1.2.0
+  usehooks-ts: ^2.9.1
   vite: ^4.0.3
   wagmi: 0.9.x
   ws: ^8.11.0
@@ -84,6 +85,7 @@ dependencies:
   remirror: 2.0.23_chvaggtv555bdmefctznjoppum
   siwe: 1.1.6_ethers@5.7.2
   use-sync-external-store: 1.2.0_react@18.2.0
+  usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
   ws: 8.11.0
   y-prosemirror: 1.2.0_s7fzh2wdopvdahcce6ktzwczpm
   y-protocols: 1.0.5
@@ -8342,6 +8344,17 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+
+  /usehooks-ts/2.9.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==}
+    engines: {node: '>=16.15.0', npm: '>=8'}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /utf-8-validate/5.0.10:
     resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
