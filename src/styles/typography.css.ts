@@ -39,10 +39,10 @@ export const fonts: Fonts = {
 // Major Third
 // base: 16
 const typeScale = {
-  s: 12.8,
-  m: 16,
-  l: 20,
-  xl: 25,
+  s: 12,
+  m: 14,
+  l: 18,
+  xl: 24,
 }
 
 interface Props {
