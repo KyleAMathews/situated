@@ -19,7 +19,7 @@ type Props = {
     | `span`
   children?: React.ReactNode
   color?: BoxProps[`color`]
-  font?: BoxProps[`fontFamily`]
+  // font?: BoxProps[`fontFamily`]
   letterSpacing?: BoxProps[`letterSpacing`]
   lineHeight?: BoxProps[`lineHeight`]
   size?: BoxProps[`fontSize`]
@@ -54,14 +54,14 @@ export const Text = React.forwardRef(
     return (
       <Box
         as={as}
-        className={styles.fontStyles.INTER_MED}
+        className={styles.fontStyles.SpaceMono_MED}
         // className={styles.variants({
         // variant,
         // ellipsis: ellipsis ? true : undefined,
         // underline: underline ? true : undefined,
         // })}
         color={color}
-        fontFamily={font}
+        // fontFamily={font}
         fontSize={size}
         fontWeight={weight}
         letterSpacing={letterSpacing}

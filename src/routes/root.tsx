@@ -102,27 +102,33 @@ function App() {
                   }}
                 >
                   <Stack space="2">
-                    <h3 className={fontStyles.INTER_MED}>Create event</h3>
+                    <h3 className={fontStyles.SpaceMono_MED}>Create event</h3>
                     <input
                       type="hidden"
                       id="wallet"
                       name="wallet"
                       value={accountInfo?.address}
                     />
-                    <select name="typeId" className={fontStyles.INTER_SMALL}>
+                    <select
+                      name="typeId"
+                      className={fontStyles.SpaceMono_SMALL}
+                    >
                       {Object.entries(eventTypes).map(([id, type]) => (
                         <option key={type.name} value={id}>
                           {type.name}
                         </option>
                       ))}
                     </select>
-                    <button className={fontStyles.INTER_SMALL} type="submit">
+                    <button
+                      className={fontStyles.SpaceMono_SMALL}
+                      type="submit"
+                    >
                       Submit
                     </button>
                   </Stack>
                 </form>
               </Box>
-              <h3 className={fontStyles.INTER_LARGE}>Events</h3>
+              <h3 className={fontStyles.SpaceMono_LARGE}>Events</h3>
               {Object.keys(eventsGroupedByDay)
                 .sort((a, b) => (new Date(a) < new Date(b) ? 1 : -1))
                 .map((day) => {

@@ -15,7 +15,9 @@ function Event({ eventsMap, typesMap, provider, event, users }) {
           <Avatar address={user?.address} size="3" src={user?.avatar} />
           <Text>
             {new Date(event.created_at).toLocaleTimeString(navigator.language, {
-              timeStyle: `short`,
+              hour: `2-digit`,
+              minute: `2-digit`,
+              hour12: true,
             })}
           </Text>
           <Text>{typesMap.get(event.typeId)?.name}</Text>

@@ -10,24 +10,16 @@ export const layout = style({
   // gap: `16px`,
 })
 
-export const label = fontStyles.INTER_SMALL
+export const label = fontStyles.SpaceMono_SMALL
 
-export const p = fontStyles.INTER_MED
+export const p = fontStyles.SpaceMono_MED
 
-export const h3 = fontStyles.INTER_MED
-export const h2 = fontStyles.INTER_LARGE
+export const h3 = fontStyles.SpaceMono_MED
+export const h2 = fontStyles.SpaceMono_LARGE
 
-export const h1 = fontStyles.INTER_XLARGE
+export const h1 = fontStyles.SpaceMono_XLARGE
 
 export const ul = style({
   padding: 0,
   margin: 0,
 })
-
-export const boldText = style([
-  fontStyles.INTER_MED,
-  {
-    color: `red`,
-    fontVariationSettings: `"wght" ${fonts.INTER.wghts[700]}`,
-  },
-])

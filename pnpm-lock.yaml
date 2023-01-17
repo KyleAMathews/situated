@@ -5,6 +5,7 @@ specifiers:
   '@capsizecss/metrics': ^0.4.0
   '@capsizecss/vanilla-extract': ^1.0.0
   '@fontsource/inter': ^4.5.14
+  '@fontsource/space-mono': ^4.5.12
   '@kylemathews-test/yfs-react': ^0.1.0
   '@monaco-editor/react': ^4.4.6
   '@rainbow-me/rainbowkit': ^0.8.1
@@ -21,6 +22,7 @@ specifiers:
   '@vanilla-extract/vite-plugin': ^3.7.0
   '@vitejs/plugin-react': ^3.0.0
   buffer: ^6.0.3
+  clsx: ^1.2.1
   concurrently: ^7.6.0
   connect-lowdb: ^2.0.0
   cors: ^2.8.5
@@ -65,11 +67,13 @@ specifiers:
   zod: ^3.20.2
 
 dependencies:
+  '@fontsource/space-mono': 4.5.12
   '@remirror/core': 2.0.11_@remirror+pm@2.0.3
   '@remirror/messages': 2.0.2
   '@remirror/pm': 2.0.3
   '@remirror/react': 2.0.24_a4ypm2zizq6mvtogmsicnbo4eq
   '@remirror/react-editors': 1.0.24_ffddpzd4hb3zvuzcgnzsyuc4h4
+  clsx: 1.2.1
   connect-lowdb: 2.0.0
   cors: 2.8.5
   degen: 0.0.118_biqbaboplfbrettd7655fr4n2y
@@ -1113,6 +1117,10 @@ packages:
   /@fontsource/inter/4.5.14:
     resolution: {integrity: sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==}
     dev: true
+
+  /@fontsource/space-mono/4.5.12:
+    resolution: {integrity: sha512-/ljrJgSIB/C0jUCn07r/V/KpkdHF9bnK2fD0raGSVkgQjFqQ6Q3LndVeBiUCJlIi6ROh7rHDkpFzn+nNmRgRlQ==}
+    dev: false
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}

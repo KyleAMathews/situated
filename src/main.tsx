@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/root'
 import { SituatedProvider, loader as docLoader } from './situated'
 import ErrorPage from './error-page'
-import '@fontsource/inter/variable-full.css'
+import '@fontsource/space-mono'
 
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))

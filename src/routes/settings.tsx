@@ -21,9 +21,14 @@ function Settings() {
     <Stack>
       <Heading level="2">Settings</Heading>
       <Stack space="12">
-        <Stack space="2">
-          <h3 className={fontStyles.INTER_LARGE}>Types</h3>
-          <Box as="ul" paddingLeft="4" style={{ listStyle: `disc` }}>
+        <Stack space="3">
+          <h3 className={fontStyles.SpaceMono_LARGE}>Types</h3>
+          <Box
+            className={fontStyles.SpaceMono_MED}
+            as="ul"
+            paddingLeft="4"
+            style={{ listStyle: `disc` }}
+          >
             {Object.values(eventTypes).map((type) => {
               return <li key={type.name}>{type.name}</li>
             })}
@@ -47,13 +52,15 @@ function Settings() {
                   value={accountInfo.address}
                 />
                 <input type="text" name="name" />
-                <button type="submit">Submit</button>
+                <button className={fontStyles.SpaceMono_MED} type="submit">
+                  Submit
+                </button>
               </Stack>
             </form>
           </Box>
         </Stack>
         <Stack space="4">
-          <h3 className={fontStyles.INTER_LARGE}>Profile</h3>
+          <h3 className={fontStyles.SpaceMono_LARGE}>Profile</h3>
           <Box width="32">
             <form
               method="post"
@@ -73,19 +80,21 @@ function Settings() {
               }}
             >
               <Stack space="1">
-                <label>Name</label>
+                <label className={fontStyles.SpaceMono_MED}>Name</label>
                 <input
                   type="text"
                   name="name"
                   defaultValue={users.get(accountInfo.address)?.name}
                 />
-                <label>Avatar</label>
+                <label className={fontStyles.SpaceMono_MED}>Avatar</label>
                 <input
                   type="text"
                   name="avatar"
                   defaultValue={users.get(accountInfo.address)?.avatar}
                 />
-                <button type="submit">Submit</button>
+                <button className={fontStyles.SpaceMono_MED} type="submit">
+                  Submit
+                </button>
               </Stack>
             </form>
           </Box>
