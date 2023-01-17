@@ -9,11 +9,6 @@ import { SituatedProvider, loader as docLoader } from './situated'
 import ErrorPage from './error-page'
 import '@fontsource/inter/variable-full.css'
 
-const port = import.meta.env.PROD ? location.port : `3000`
-const BACKEND_ADDR = new URL(
-  `${location.protocol}//${location.hostname}:${port}`,
-).href
-
 const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 const LazySettings = lazy(() => import(`./routes/settings`))

@@ -7,6 +7,7 @@ import { Box, Avatar, IconClose, IconChevronDown, Stack } from 'degen'
 function Event({ eventsMap, typesMap, provider, event, users }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const user = users.get(event.creator)
+
   return (
     <Stack space="2">
       <Box onClick={() => setIsOpen(!isOpen)} cursor="pointer">
@@ -17,7 +18,7 @@ function Event({ eventsMap, typesMap, provider, event, users }) {
               timeStyle: `short`,
             })}
           </Text>
-          <Text>{typesMap.get(event.typeId).name}</Text>
+          <Text>{typesMap.get(event.typeId)?.name}</Text>
           {isOpen ? <IconClose size={3} /> : <IconChevronDown size={3} />}
         </Stack>
       </Box>
