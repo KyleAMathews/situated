@@ -4,6 +4,7 @@ import React from 'react'
 import { AnnotationExtension, PlaceholderExtension } from 'remirror/extensions'
 import { YjsExtension } from '../remirror-yjs'
 import { Remirror, ThemeProvider, useRemirror } from '@remirror/react'
+import './editor.css'
 
 const Editor = ({ provider, xmlType }): JSX.Element => {
   const { manager } = useRemirror({

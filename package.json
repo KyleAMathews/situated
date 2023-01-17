@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@fontsource/space-mono": "^4.5.12",
+    "@internationalized/date": "^3.0.2",
     "@remirror/core": "^2.0.11",
     "@remirror/messages": "^2.0.2",
     "@remirror/pm": "^2.0.3",
@@ -22,6 +23,8 @@
     "lodash.debounce": "^4.0.8",
     "lowdb": "^5.0.5",
     "lowdb-session-store": "^1.1.1",
+    "react-aria": "^3.22.0",
+    "react-stately": "^3.20.0",
     "remirror": "^2.0.23",
     "siwe": "^1.1.6",
     "use-sync-external-store": "^1.2.0",

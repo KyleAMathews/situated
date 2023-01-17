@@ -1,5 +1,5 @@
 import { FontMetrics } from '@capsizecss/core'
-import spanceMonoFontMetrics from '@capsizecss/metrics/spaceMono'
+import spaceMonoFontMetrics from '@capsizecss/metrics/spaceMono'
 import { createTextStyle } from '@capsizecss/vanilla-extract'
 import { style } from '@vanilla-extract/css'
 
@@ -25,7 +25,7 @@ export const fonts: Fonts = {
   SpaceMono: {
     fallback: `sans-serif`,
     format: `truetype-variations`,
-    metrics: spanceMonoFontMetrics,
+    metrics: spaceMonoFontMetrics,
     name: `Space Mono`,
     wghtRange: `100 900`,
     wghts: {
