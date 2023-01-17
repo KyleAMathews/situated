@@ -3,21 +3,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
 import { MonacoBinding } from 'y-monaco'
 import * as monaco from 'monaco-editor'
-import useFileSync from '@kylemathews-test/yfs-react'
-import useInterval from '../use-interval'
 import { awareness, rootDoc } from '../doc-factory'
 import { entries } from '../doc-factory'
 import { subtext } from './entry.css'
 import * as Components from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
-
-// export async function loader({ params }) {
-// if (entries.has(params.entryId)) {
-// return { entry: entries.get(params.entryId) }
-// } else {
-// throw new Response(`Not Found`, { status: 404 })
-// }
-// }
 
 function LogEntryBase(props) {
   const { entryId } = useParams()
@@ -27,21 +17,6 @@ function LogEntryBase(props) {
   console.log(entry.toJSON())
   const [, setRender] = useState()
   const config = useRef<undefined>(undefined)
-  // const {
-  // isSupported,
-  // setRootDirectory,
-  // unsetRootDirectory,
-  // grantWritePermission,
-  // directoryName,
-  // isWritePermissionGranted,
-  // syncDoc,
-  // } = useFileSync()
-
-  // const sync = useCallback(() => {
-  // syncDoc(`test.md`, doc)
-  // }, [syncDoc])
-
-  // useInterval(sync, isWritePermissionGranted ? 5000 : null)
 
   useEffect(() => {
     function entryObserve(event) {

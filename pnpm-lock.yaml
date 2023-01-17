@@ -6,7 +6,6 @@ specifiers:
   '@capsizecss/vanilla-extract': ^1.0.0
   '@fontsource/inter': ^4.5.14
   '@fontsource/space-mono': ^4.5.12
-  '@kylemathews-test/yfs-react': ^0.1.0
   '@monaco-editor/react': ^4.4.6
   '@rainbow-me/rainbowkit': ^0.8.1
   '@remirror/core': ^2.0.11
@@ -102,7 +101,6 @@ devDependencies:
   '@capsizecss/metrics': 0.4.0
   '@capsizecss/vanilla-extract': 1.0.0_@vanilla-extract+css@1.9.2
   '@fontsource/inter': 4.5.14
-  '@kylemathews-test/yfs-react': link:../yfs
   '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
   '@rainbow-me/rainbowkit': 0.8.1_imhbbmdvnpugztnf3ig3ttouje
   '@types/react': 18.0.26
