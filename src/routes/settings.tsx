@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { useYjsData } from '../hooks'
 import { useYjs, useAuth } from '../situated'
 import { nanoid } from 'nanoid'
@@ -22,15 +23,19 @@ function Settings() {
       <Heading level="2">Settings</Heading>
       <Stack space="12">
         <Stack space="3">
-          <h3 className={fontStyles.SpaceMono_LARGE}>Types</h3>
+          <h3 className={fontStyles.SpaceMono_LARGE}>Event Types</h3>
           <Box
             className={fontStyles.SpaceMono_MED}
             as="ul"
             paddingLeft="4"
             style={{ listStyle: `disc` }}
           >
-            {Object.values(eventTypes).map((type) => {
-              return <li key={type.name}>{type.name}</li>
+            {Array.from(rootDoc.getMap(`types`)).map(([id, type]) => {
+              return (
+                <li key={type.name}>
+                  <Link to={`/type/${id}`}>{type.name}</Link>
+                </li>
+              )
             })}
           </Box>
           <Box width="64">

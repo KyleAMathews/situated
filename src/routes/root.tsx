@@ -3,17 +3,14 @@ import * as Y from 'yjs'
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createEntry } from '../doc-factory'
 import '../App.css'
-import { useSelf, useYjsData, useUsers } from '../hooks'
-import { Heading, Box, Avatar, IconClose, Stack } from 'degen'
-import { groupBy } from 'lodash'
+import { useYjsData, useUsers } from '../hooks'
+import { Box, Avatar, Stack } from 'degen'
 import { Text } from '../components'
-import Event from '../components/event'
+import EventsByDay from '../components/events-by-day'
 import { useYjs, useAuth } from '../situated'
-// import * as Components from "../styles/base-components"
-// import * as styles from "./base-components.css"
 import { fontStyles } from '../styles/typography.css'
-import * as Components from '../styles/base-components'
-import * as rootStyles from '../styles/root.css'
+// import * as Components from '../styles/base-components'
+// import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
 
 function App() {
@@ -25,7 +22,6 @@ function App() {
 
   // YJS data
   const {
-    provider,
     provider: { awareness },
     rootDoc,
   } = useYjs()
@@ -52,10 +48,6 @@ function App() {
       })
     }
   }, [authenticationStatus])
-
-  const eventsGroupedByDay = groupBy(Object.values(events), (event) =>
-    new Date(event.created_at).toLocaleDateString(),
-  )
 
   return (
     <div className="App">
@@ -128,32 +120,7 @@ function App() {
                   </Stack>
                 </form>
               </Box>
-              <h3 className={fontStyles.SpaceMono_LARGE}>Events</h3>
-              {Object.keys(eventsGroupedByDay)
-                .sort((a, b) => (new Date(a) < new Date(b) ? 1 : -1))
-                .map((day) => {
-                  const dayEvents = eventsGroupedByDay[day]
-                  dayEvents.sort((a, b) =>
-                    a.created_at < b.created_at ? 1 : -1,
-                  )
-                  return (
-                    <Stack space="2" key={day}>
-                      <Text>{day}</Text>
-                      {dayEvents.map((event) => {
-                        return (
-                          <Event
-                            key={event.id}
-                            event={event}
-                            provider={provider}
-                            eventsMap={rootDoc.getMap(`entries`)}
-                            typesMap={rootDoc.getMap(`types`)}
-                            users={rootDoc.get(`users`)}
-                          />
-                        )
-                      })}
-                    </Stack>
-                  )
-                })}
+              <EventsByDay events={events} />
             </Stack>
           </div>
           <React.Suspense>

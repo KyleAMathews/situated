@@ -13,6 +13,7 @@ const LazyLogin = lazy(() => import(`./routes/login`))
 const LazyStyleGuide = lazy(() => import(`./routes/styleguide`))
 const LazySettings = lazy(() => import(`./routes/settings`))
 const LazyMigrate = lazy(() => import(`./routes/migrate`))
+const LazyType = lazy(() => import(`./routes/type`))
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: `/migrate`,
         element: <LazyMigrate />,
+        loader: docLoader,
+      },
+      {
+        path: `/type/:id`,
+        element: <LazyType />,
         loader: docLoader,
       },
     ],
