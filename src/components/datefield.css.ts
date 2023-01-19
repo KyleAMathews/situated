@@ -21,14 +21,12 @@ export const placeholder = style({
 export const wrapper = style([
   {
     display: `flex`,
-    flexDirection: `column`,
-    alignItems: `flex-start`,
     fontFamily: `Space Mono`,
   },
   createTextStyle({
     fontMetrics: spaceMonoFontMetrics,
     fontSize: 12,
-    leading: 18,
+    leading: 16,
   }),
 ])
 

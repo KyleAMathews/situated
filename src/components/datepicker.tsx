@@ -8,23 +8,14 @@ import { Button, Calendar, DateField, Dialog, Popover } from './'
 export function DatePicker(props) {
   const state = useDatePickerState(props)
   const ref = React.useRef()
-  const {
-    groupProps,
-    labelProps,
-    fieldProps,
-    buttonProps,
-    dialogProps,
-    calendarProps,
-  } = useDatePicker(props, state, ref)
+  const { groupProps, labelProps, fieldProps, dialogProps, calendarProps } =
+    useDatePicker(props, state, ref)
 
   return (
     <div style={{ display: `inline-flex`, flexDirection: `column` }}>
       <div {...labelProps}>{props.label}</div>
       <div {...groupProps} ref={ref} style={{ display: `flex` }}>
         <DateField {...fieldProps} />
-        <Button style={{ height: 12 }} {...buttonProps}>
-          🗓
-        </Button>
       </div>
       {state.isOpen && (
         <Popover state={state} triggerRef={ref} placement="bottom start">
