@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { useYjsData } from '../hooks'
-import { useYjs, useAuth } from '../situated'
+import { useYjs, useSubscribeYjs, useAuth } from '../situated'
 import { nanoid } from 'nanoid'
 import { H2, H3 } from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
@@ -15,7 +14,7 @@ function Settings() {
     provider: { awareness },
   } = useYjs()
   const { accountInfo } = useAuth()
-  const eventTypes = useYjsData(rootDoc.getMap(`types`))
+  const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`))
   const users = rootDoc.getMap(`users`)
 
   return (

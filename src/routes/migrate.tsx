@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { Stack, IconCheck } from 'degen'
 import { Text } from '../components'
-import { useYjsData } from '../hooks'
-import { useYjs } from '../situated'
+import { useYjs, useSubscribeYjs } from '../situated'
 
 const migrations = [
   {
@@ -39,7 +38,7 @@ const migrations = [
 function Migrate() {
   const { rootDoc } = useYjs()
   const migrationMap = rootDoc.getMap(`migrations`)
-  const migrationsStatus = useYjsData(migrationMap)
+  const migrationsStatus = useSubscribeYjs(migrationMap)
   return (
     <Stack>
       {migrations.map((migration, i) => {

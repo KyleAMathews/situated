@@ -4,15 +4,15 @@ import * as Y from 'yjs'
 
 // type UserSnapshot = ReturnType<Awareness[`getLocalState`]>
 
-export function useYjsData(data: any): any
+export function useSubscribeYjs(data: any): any
 
-export function useYjsData<Selection>(
+export function useSubscribeYjs<Selection>(
   data: Y.AbstractType,
   selector: (state: any) => Selection,
   compare?: (a: Selection, b: Selection) => boolean,
 ): Selection
 
-export function useYjsData<Selection>(
+export function useSubscribeYjs<Selection>(
   data: Y.AbstractType,
   selector: (state: any) => Selection = (state) => state as Selection,
   compare?: (a: Selection, b: Selection) => boolean,

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
-import { useYjsData } from '../hooks'
-import { useYjs, useAuth } from '../situated'
+import { useYjs, useSubscribeYjs, useAuth } from '../situated'
 import { fontStyles } from '../styles/typography.css'
 import { Stack } from 'degen'
 import { Text } from '../components/text'
@@ -11,7 +10,7 @@ function Type() {
   const { rootDoc } = useYjs()
   const params = useParams()
   const type = rootDoc.getMap(`types`).get(params.id)
-  const events = useYjsData(rootDoc.get(`entries`), (events) => {
+  const events = useSubscribeYjs(rootDoc.get(`entries`), (events) => {
     return Object.values(events).filter((event) => event.typeId == params.id)
   })
 
