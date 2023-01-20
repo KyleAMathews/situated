@@ -1,22 +1,23 @@
-import { useCallback, useRef } from 'react'
+import { useContext, useCallback, useRef } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
 import { type Awareness } from 'y-protocols/awareness'
+import { YJSStateContext } from './state-context'
 
 type UsersSnapshot = ReturnType<Awareness[`getStates`]>
 
-export function useUsers(awareness: Awareness): UsersSnapshot
+export function useAwarenessStates(): UsersSnapshot
 
-export function useUsers<Selection>(
-  awareness: Awareness,
+export function useAwarenessStates<Selection>(
   selector: (state: UsersSnapshot) => Selection,
   compare?: (a: Selection, b: Selection) => boolean,
 ): Selection
 
-export function useUsers<Selection>(
-  awareness: Awareness,
+export function useAwarenessStates<Selection>(
   selector: (state: UsersSnapshot) => Selection = (state) => state as Selection,
   compare?: (a: Selection, b: Selection) => boolean,
 ): Selection {
+  const { provider } = useContext(YJSStateContext)
+  const awareness = provider.awareness as Awareness
   const stateRef = useRef<ReturnType<Awareness[`getStates`]>>()
 
   if (!stateRef.current) {

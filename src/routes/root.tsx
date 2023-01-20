@@ -3,11 +3,15 @@ import * as Y from 'yjs'
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createEntry } from '../doc-factory'
 import '../App.css'
-import { useUsers } from '../hooks'
 import { Box, Avatar, Stack } from 'degen'
 import { Text } from '../components'
 import EventsByDay from '../components/events-by-day'
-import { useYjs, useSubscribeYjs, useAuth } from '../situated'
+import {
+  useYjs,
+  useSubscribeYjs,
+  useAwarenessStates,
+  useAuth,
+} from '../situated'
 import { fontStyles } from '../styles/typography.css'
 // import * as Components from '../styles/base-components'
 // import * as rootStyles from '../styles/root.css'
@@ -25,8 +29,8 @@ function App() {
     provider: { awareness },
     rootDoc,
   } = useYjs()
-  const usersOnline = useUsers(awareness, (users) => {
-    return users.size
+  const usersOnline = useAwarenessStates((clients) => {
+    return clients.size
   })
   const profile = useSubscribeYjs(rootDoc.getMap(`users`), (users) => {
     return users[accountInfo?.address]
