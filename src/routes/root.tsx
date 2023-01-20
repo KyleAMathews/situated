@@ -120,6 +120,7 @@ function App() {
                   </Stack>
                 </form>
               </Box>
+              <h3 className={fontStyles.SpaceMono_LARGE}>Events</h3>
               <EventsByDay events={events} />
             </Stack>
           </div>

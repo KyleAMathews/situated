@@ -4,6 +4,7 @@ import { useYjsData } from '../hooks'
 import { useYjs, useAuth } from '../situated'
 import { fontStyles } from '../styles/typography.css'
 import { Stack } from 'degen'
+import { Text } from '../components/text'
 import EventsByDay from '../components/events-by-day'
 
 function Type() {
@@ -17,7 +18,8 @@ function Type() {
   return (
     <Stack>
       <h2 className={fontStyles.SpaceMono_XLARGE}>{type.name}</h2>
-      <EventsByDay events={events} />
+      <Text>{events.length} events recorded</Text>
+      <EventsByDay events={events} showEventName={false} />
     </Stack>
   )
 }

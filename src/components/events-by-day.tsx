@@ -6,7 +6,7 @@ import { Text } from './text'
 import { useYjs } from '../situated'
 import { fontStyles } from '../styles/typography.css'
 
-function EventsByDay({ events }) {
+function EventsByDay({ events, showEventName = true }) {
   // YJS data
   const { provider, rootDoc } = useYjs()
   const eventsGroupedByDay = groupBy(Object.values(events), (event) =>
@@ -15,7 +15,6 @@ function EventsByDay({ events }) {
 
   return (
     <>
-      <h3 className={fontStyles.SpaceMono_LARGE}>Events</h3>
       {Object.keys(eventsGroupedByDay)
         .sort((a, b) => (new Date(a) < new Date(b) ? 1 : -1))
         .map((day) => {
@@ -29,6 +28,7 @@ function EventsByDay({ events }) {
                   <Event
                     key={event.id}
                     event={event}
+                    showEventName={showEventName}
                     provider={provider}
                     eventsMap={rootDoc.getMap(`entries`)}
                     typesMap={rootDoc.getMap(`types`)}

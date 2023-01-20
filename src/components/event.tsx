@@ -6,7 +6,14 @@ import { parseAbsolute } from '@internationalized/date'
 import * as bar from '../components'
 import { Box, Avatar, IconClose, IconChevronDown, Stack } from 'degen'
 
-function Event({ eventsMap, typesMap, provider, event, users }) {
+function Event({
+  eventsMap,
+  typesMap,
+  provider,
+  event,
+  users,
+  showEventName = true,
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const startDate = parseAbsolute(
     event.created_at,
@@ -28,7 +35,7 @@ function Event({ eventsMap, typesMap, provider, event, users }) {
               hour12: true,
             })}
           </Text>
-          <Text>{typesMap.get(event.typeId)?.name}</Text>
+          {showEventName && <Text>{typesMap.get(event.typeId)?.name}</Text>}
           {isOpen ? <IconClose size={3} /> : <IconChevronDown size={3} />}
         </Stack>
       </Box>
