@@ -2,11 +2,9 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { useYjs, useSubscribeYjs, useAuth } from '../situated'
 import { nanoid } from 'nanoid'
-import { H2, H3 } from '../styles/base-components'
 import { fontStyles } from '../styles/typography.css'
-import * as styles from '../styles/settings.css'
-import { Text } from '../components'
 import { Heading, Box, Stack } from 'degen'
+import { EventType } from '../models/event-type'
 
 function Settings() {
   const {
@@ -14,7 +12,10 @@ function Settings() {
     provider: { awareness },
   } = useYjs()
   const { accountInfo } = useAuth()
-  const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`))
+  const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`)) as Record<
+    string,
+    EventType
+  >
   const users = rootDoc.getMap(`users`)
 
   return (
@@ -29,7 +30,7 @@ function Settings() {
             paddingLeft="4"
             style={{ listStyle: `disc` }}
           >
-            {Array.from(rootDoc.getMap(`types`)).map(([id, type]) => {
+            {Object.entries(eventTypes).map(([id, type]) => {
               return (
                 <li key={type.name}>
                   <Link to={`/type/${id}`}>{type.name}</Link>
@@ -43,8 +44,8 @@ function Settings() {
               onSubmit={(e) => {
                 e.preventDefault()
                 rootDoc.getMap(`types`).set(nanoid(), {
-                  name: e.target.name.value,
-                  walletAddress: e.target.wallet.value,
+                  name: e.target.name?.value,
+                  walletAddress: e.target.wallet?.value,
                 })
               }}
             >

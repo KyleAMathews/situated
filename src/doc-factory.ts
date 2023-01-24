@@ -8,6 +8,7 @@ export function createEntry({
 }: {
   walletAddress: string
   typeId: string
+  rootDoc: Y.Doc
 }) {
   const entry = new Y.Map()
   const id = nanoid()

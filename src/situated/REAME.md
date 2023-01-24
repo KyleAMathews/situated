@@ -63,3 +63,6 @@ YJS types
 
 ## Components
 Remirror / Prosemirror integration that isn't dependent on using a single doc.
+
+## Data persistence
+Can set to admin only (w/ ethereum address(es) or anyone can do it.

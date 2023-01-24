@@ -4,17 +4,25 @@ import { Link } from 'react-router-dom'
 import Editor from './editor'
 import { Text, DatePicker } from '../components'
 import { parseAbsolute } from '@internationalized/date'
-import * as bar from '../components'
 import { Box, Avatar, IconClose, IconChevronDown, Stack } from 'degen'
+import { Event } from '../models/event'
+import { EventType } from '../models/event-type'
 
-function Event({
+function EventComponent({
   eventsMap,
   typesMap,
   provider,
   event,
   users,
   showEventName = true,
-}) {
+}): {
+  eventsMap: any
+  typesMap: any
+  provider: any
+  event: Event
+  users: any
+  showEventName: boolean
+} {
   const [isOpen, setIsOpen] = React.useState(false)
   const startDate = parseAbsolute(
     event.created_at,
@@ -23,7 +31,7 @@ function Event({
   const [newDate, setNewDate] = React.useState(startDate)
   const user = users.get(event.creator)
   const yjsEvent = eventsMap.get(event.id)
-  const type = typesMap.get(event.typeId)
+  const type = typesMap.get(event.typeId) as EventType
 
   return (
     <Stack space="2">
@@ -100,4 +108,4 @@ function Event({
   )
 }
 
-export default Event
+export default EventComponent

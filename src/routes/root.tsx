@@ -1,11 +1,12 @@
 import * as React from 'react'
-import * as Y from 'yjs'
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createEntry } from '../doc-factory'
 import '../App.css'
 import { Box, Avatar, Stack } from 'degen'
 import { Text } from '../components'
 import EventsByDay from '../components/events-by-day'
+import { Event } from '../models/event'
+import { EventType } from '../models/event-type'
 import {
   useYjs,
   useSubscribeYjs,
@@ -17,7 +18,7 @@ import { fontStyles } from '../styles/typography.css'
 // import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
 
-let eventsAsArray = []
+let eventsAsArray: Array<Event> = []
 function App() {
   // Router info
   const navigate = useNavigate()
@@ -36,19 +37,25 @@ function App() {
   const profile = useSubscribeYjs(rootDoc.getMap(`users`), (users) => {
     return users[accountInfo?.address]
   })
-  const events = useSubscribeYjs(rootDoc.getMap(`entries`))
-  const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`))
+  const events = useSubscribeYjs(rootDoc.getMap(`entries`)) as Record<
+    string,
+    Event
+  >
+  const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`)) as Record<
+    string,
+    EventType
+  >
 
   eventsAsArray = Object.values(events).sort((a, b) => {
     return new Date(a.created_at) < new Date(b.created_at) ? 1 : -1
   })
 
-  function getLastEvent(typeId) {
+  function getLastEvent(typeId: string) {
     return eventsAsArray.find((event) => event.typeId === typeId)
   }
 
   // Construct options
-  const options = Object.entries(eventTypes)
+  const options: Array<Record<string, string>> = Object.entries(eventTypes)
     .sort((a, b) => {
       const latestEventA = getLastEvent(a[0])
       const latestEventB = getLastEvent(b[0])
