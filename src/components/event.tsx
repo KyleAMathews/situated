@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as Y from 'yjs'
+import { Link } from 'react-router-dom'
 import Editor from './editor'
 import { Text, DatePicker } from '../components'
 import { parseAbsolute } from '@internationalized/date'
@@ -22,10 +23,19 @@ function Event({
   const [newDate, setNewDate] = React.useState(startDate)
   const user = users.get(event.creator)
   const yjsEvent = eventsMap.get(event.id)
+  const type = typesMap.get(event.typeId)
 
   return (
     <Stack space="2">
-      <Box onClick={() => setIsOpen(!isOpen)} cursor="pointer">
+      <Box
+        onClick={(e) => {
+          // Ignore clicks on links
+          if (!e.target.href) {
+            setIsOpen(!isOpen)
+          }
+        }}
+        cursor="pointer"
+      >
         <Stack direction="horizontal" space="2">
           <Avatar address={user?.address} size="3" src={user?.avatar} />
           <Text>
@@ -35,7 +45,16 @@ function Event({
               hour12: true,
             })}
           </Text>
-          {showEventName && <Text>{typesMap.get(event.typeId)?.name}</Text>}
+          {showEventName && (
+            <Text>
+              <Link
+                // onClick={(e) => e.preventDefault()}
+                to={`/type/${event.typeId}`}
+              >
+                {type.name}
+              </Link>
+            </Text>
+          )}
           {isOpen ? <IconClose size={3} /> : <IconChevronDown size={3} />}
         </Stack>
       </Box>
