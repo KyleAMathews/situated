@@ -17,6 +17,7 @@ import { fontStyles } from '../styles/typography.css'
 // import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
 
+let eventsAsArray = []
 function App() {
   // Router info
   const navigate = useNavigate()
@@ -37,6 +38,50 @@ function App() {
   })
   const events = useSubscribeYjs(rootDoc.getMap(`entries`))
   const eventTypes = useSubscribeYjs(rootDoc.getMap(`types`))
+
+  eventsAsArray = Object.values(events).sort((a, b) => {
+    return new Date(a.created_at) < new Date(b.created_at) ? 1 : -1
+  })
+
+  function getLastEvent(typeId) {
+    return eventsAsArray.find((event) => event.typeId === typeId)
+  }
+
+  // Construct options
+  const options = Object.entries(eventTypes)
+    .sort((a, b) => {
+      const latestEventA = getLastEvent(a[0])
+      const latestEventB = getLastEvent(b[0])
+      if (latestEventA && latestEventB) {
+        return new Date(latestEventA?.created_at) <
+          new Date(latestEventB?.created_at)
+          ? 1
+          : -1
+      } else if (!latestEventA) {
+        return 1
+      } else if (!latestEventB) {
+        return -1
+      }
+    })
+    .map(([id, type]) => {
+      // Get latest event & "days since" string".
+      const latestEvent = getLastEvent(id)
+
+      let dateStr
+      if (latestEvent) {
+        dateStr = new Date(latestEvent?.created_at).toLocaleDateString(
+          navigator.language,
+          {
+            hour: `2-digit`,
+            minute: `2-digit`,
+            hour12: true,
+          },
+        )
+      } else {
+        dateStr = `never`
+      }
+      return { id, value: `${type.name} (${dateStr})` }
+    })
 
   // Redirect to login if not logged in.
   React.useEffect(() => {
@@ -109,9 +154,9 @@ function App() {
                       name="typeId"
                       className={fontStyles.SpaceMono_SMALL}
                     >
-                      {Object.entries(eventTypes).map(([id, type]) => (
-                        <option key={type.name} value={id}>
-                          {type.name}
+                      {options.map(({ id, value }) => (
+                        <option key={id} value={id}>
+                          {value}
                         </option>
                       ))}
                     </select>
