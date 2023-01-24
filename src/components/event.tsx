@@ -58,6 +58,15 @@ function Event({
           {isOpen ? <IconClose size={3} /> : <IconChevronDown size={3} />}
         </Stack>
       </Box>
+      {isOpen &&
+        eventsMap.get(event.id).get(`body`) instanceof Y.XmlFragment && (
+          <Box maxWidth="180">
+            <Editor
+              provider={provider}
+              xmlType={eventsMap.get(event.id).get(`body`)}
+            />
+          </Box>
+        )}
       {isOpen && (
         <Stack direction="horizontal" space="2">
           <DatePicker label="" value={newDate} onChange={setNewDate} />
@@ -72,15 +81,6 @@ function Event({
           )}
         </Stack>
       )}
-      {isOpen &&
-        eventsMap.get(event.id).get(`body`) instanceof Y.XmlFragment && (
-          <Box maxWidth="180">
-            <Editor
-              provider={provider}
-              xmlType={eventsMap.get(event.id).get(`body`)}
-            />
-          </Box>
-        )}
       {isOpen && (
         <Box
           width="180"
