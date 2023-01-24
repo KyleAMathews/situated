@@ -151,6 +151,22 @@ app.get(`*`, function (request, response) {
 const wsServer = new WebSocketServer({ noServer: true })
 wsServer.on(`connection`, ySocket.setupWSConnection)
 
+// Shutdown the server when there's no connections.
+let noClientCount = 0
+setInterval(() => {
+  const clientCount = wsServer.clients.size
+  if (clientCount === 0) {
+    noClientCount += 1
+  } else {
+    noClientCount = 0
+  }
+
+  // If the server has had no connections for more than two checks, shutdown gracefully.
+  if (process.env.NODE_ENV === `production` && noClientCount === 2) {
+    process.exit(0)
+  }
+}, 30000)
+
 let port = 3000
 if (process.env.NODE_ENV === `production`) {
   port = 4000
