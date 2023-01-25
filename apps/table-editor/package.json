@@ -1,0 +1,26 @@
+{
+  "name": "table-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently 'vite --host' 'tsx watch --clear-screen=false src/server.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@tanstack/react-table": "^8.7.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "situated": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^3.0.0",
+    "concurrently": "^7.6.0",
+    "tsx": "^3.12.2",
+    "vite": "^4.0.3"
+  }
+}

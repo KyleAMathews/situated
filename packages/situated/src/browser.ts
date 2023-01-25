@@ -1,2 +1,1 @@
-export * from './test'
-export const hi = `foo`
+export * from './browser/index'

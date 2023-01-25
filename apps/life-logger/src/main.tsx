@@ -5,7 +5,7 @@ import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/root'
-import { SituatedProvider, loader as docLoader } from './situated'
+import { SituatedProvider, loader as docLoader } from 'situated'
 import ErrorPage from './error-page'
 import '@fontsource/space-mono'
 

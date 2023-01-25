@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { useYjs, useSubscribeYjs, useAuth } from '../situated'
+import { useYjs, useSubscribeYjs, useAuth } from 'situated'
 import { nanoid } from 'nanoid'
 import { fontStyles } from '../styles/typography.css'
 import { Heading, Box, Stack } from 'degen'

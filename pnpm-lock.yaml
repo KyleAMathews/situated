@@ -152,17 +152,44 @@ importers:
       wagmi: 0.9.6_fsys2wp3iip6k7fwrrc3ndeyc4
       y-monaco: 0.1.4_wzghythi6jhhri3qxvek4sg7vm
 
+  apps/table-editor:
+    specifiers:
+      '@faker-js/faker': ^7.6.0
+      '@tanstack/react-table': ^8.7.6
+      '@vitejs/plugin-react': ^3.0.0
+      concurrently: ^7.6.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      situated: workspace:*
+      tsx: ^3.12.2
+      vite: ^4.0.3
+    dependencies:
+      '@faker-js/faker': 7.6.0
+      '@tanstack/react-table': 8.7.6_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      situated: link:../../packages/situated
+    devDependencies:
+      '@vitejs/plugin-react': 3.0.1_vite@4.0.4
+      concurrently: 7.6.0
+      tsx: 3.12.2
+      vite: 4.0.4
+
   packages/situated:
     specifiers:
       lib0: ^0.2.58
       lmdb: ^2.7.3
       lodash.debounce: ^4.0.8
+      use-sync-external-store: ^1.2.0
+      usehooks-ts: ^2.9.1
       y-protocols: ^1.0.5
       yjs: ^13.5.44
     dependencies:
       lib0: 0.2.60
       lmdb: 2.7.6
       lodash.debounce: 4.0.8
+      use-sync-external-store: 1.2.0
+      usehooks-ts: 2.9.1
       y-protocols: 1.0.5
       yjs: 13.5.44
 
@@ -1182,6 +1209,11 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
+
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dev: false
 
   /@fastify/accept-negotiator/1.1.0:
     resolution: {integrity: sha512-OIHZrb2ImZ7XG85HXOONLcJWGosv7sIvM2ifAPQVhg9Lv7qdmMBNVaai4QTdyuaqbKM5eO6sLSQOYI7wEQeCJQ==}
@@ -4570,6 +4602,23 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: true
+
+  /@tanstack/react-table/8.7.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-/QijmMFeP7wDLBnr0MQ/5MlbXePbIL/1nOtkxBC9zvmBu4gDKJEDBqipUyM7Wc/iBpSd0IFyqBlvZvTPD9FYDA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.7.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.7.6:
+    resolution: {integrity: sha512-sqiNTMzB6cpyL8DFH6/VqW48SwiflLqxQqYpo2wNock7rdVGvlm0BLNI8vZUJbr1+fmmWmHwBvi5OMgZw8n1DA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /@types/bn.js/4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
@@ -10271,12 +10320,26 @@ packages:
       tslib: 2.4.1
     dev: true
 
+  /use-sync-external-store/1.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dev: false
+
   /use-sync-external-store/1.2.0_react@18.2.0:
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+
+  /usehooks-ts/2.9.1:
+    resolution: {integrity: sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==}
+    engines: {node: '>=16.15.0', npm: '>=8'}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+    dev: false
 
   /usehooks-ts/2.9.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==}

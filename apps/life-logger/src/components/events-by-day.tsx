@@ -3,7 +3,7 @@ import { groupBy } from 'lodash'
 import Event from './event'
 import { Stack } from 'degen'
 import { Text } from './text'
-import { useYjs } from '../situated'
+import { useYjs } from 'situated'
 import { fontStyles } from '../styles/typography.css'
 
 function EventsByDay({ events, showEventName = true }) {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as Y from 'yjs'
-import { WebsocketProvider } from '../y-socket-client'
+import { WebsocketProvider } from './y-socket-client'
 import * as awarenessProtocol from 'y-protocols/awareness.js'
 import { useLocalStorage } from 'usehooks-ts'
 
@@ -35,14 +35,14 @@ wsProvider.on(`synced`, () => {
 })
 
 export async function loader() {
-  const res = await fetch(`${BACKEND_ADDR}personal_information`, {
-    credentials: `include`,
-  })
-  if (res.ok) {
-    return await synced
-  } else {
-    return null
-  }
+  // const res = await fetch(`${BACKEND_ADDR}personal_information`, {
+  // credentials: `include`,
+  // })
+  // if (res.ok) {
+  return await synced
+  // } else {
+  // return null
+  // }
 }
 
 wsProvider.on(`status`, (event) => {
