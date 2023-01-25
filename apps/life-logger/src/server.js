@@ -164,7 +164,8 @@ setInterval(() => {
   // If the Fly server has had no connections for more than two checks,
   // shutdown gracefully.
   if (process.env.FLY_APP_NAME && noClientCount === 2) {
-    process.exit(0)
+    console.log(`There are no connected clients, exiting`)
+    process.exit()
   }
 }, 30000)
 

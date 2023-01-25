@@ -59,7 +59,7 @@ function useSkipper() {
   return [shouldSkip, skip] as const
 }
 
-const ROW_COUNT = 35
+const ROW_COUNT = 10
 
 function App() {
   const { rootDoc } = useYjs()
@@ -108,11 +108,6 @@ function App() {
                 footer: (props) => props.column.id,
               },
               {
-                accessorKey: `status`,
-                header: `Status`,
-                footer: (props) => props.column.id,
-              },
-              {
                 accessorKey: `progress`,
                 header: `Profile Progress`,
                 footer: (props) => props.column.id,
@@ -158,6 +153,7 @@ function App() {
 
   return (
     <div className="p-2">
+      <h1 className="text-2xl font-bold">Situated demo: Live spreadsheet</h1>
       Users online {usersOnline}
       <div className="h-2" />
       <table>
@@ -173,11 +169,6 @@ function App() {
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} table={table} />
-                          </div>
-                        ) : null}
                       </div>
                     )}
                   </th>

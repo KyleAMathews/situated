@@ -12,7 +12,7 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { useAccount } from 'wagmi'
-import { useAuth } from '../situated'
+import { useAuth } from 'situated'
 
 const { chains, provider } = configureChains(
   [mainnet],

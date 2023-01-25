@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Stack, IconCheck } from 'degen'
 import { Text } from '../components'
-import { useYjs, useSubscribeYjs } from '../situated'
+import { useYjs, useSubscribeYjs } from 'situated'
 
 const migrations = [
   {

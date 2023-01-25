@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
-import { useYjs, useSubscribeYjs, useAuth } from '../situated'
+import { useYjs, useSubscribeYjs, useAuth } from 'situated'
 import { fontStyles } from '../styles/typography.css'
 import { Stack } from 'degen'
 import { Text } from '../components/text'
