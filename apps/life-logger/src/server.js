@@ -5,7 +5,6 @@ import { WebSocketServer } from 'ws'
 import Session from 'express-session'
 import { generateNonce, ErrorTypes, SiweMessage } from 'siwe'
 import { fileURLToPath } from 'url'
-// import ySocket from './y-socket-server.cjs'
 import fs from 'fs-extra'
 import { setupWSConnection } from 'situated'
 
@@ -162,8 +161,9 @@ setInterval(() => {
     noClientCount = 0
   }
 
-  // If the server has had no connections for more than two checks, shutdown gracefully.
-  if (process.env.NODE_ENV === `production` && noClientCount === 2) {
+  // If the Fly server has had no connections for more than two checks,
+  // shutdown gracefully.
+  if (process.env.FLY_APP_NAME && noClientCount === 2) {
     process.exit(0)
   }
 }, 30000)
