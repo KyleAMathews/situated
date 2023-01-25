@@ -151,23 +151,24 @@ app.get(`*`, function (request, response) {
 const wsServer = new WebSocketServer({ noServer: true })
 wsServer.on(`connection`, setupWSConnection)
 
+// TODO restore this when migrate to a fly.io machine.
 // Shutdown the server when there's no connections.
-let noClientCount = 0
-setInterval(() => {
-  const clientCount = wsServer.clients.size
-  if (clientCount === 0) {
-    noClientCount += 1
-  } else {
-    noClientCount = 0
-  }
+// let noClientCount = 0
+// setInterval(() => {
+// const clientCount = wsServer.clients.size
+// if (clientCount === 0) {
+// noClientCount += 1
+// } else {
+// noClientCount = 0
+// }
 
-  // If the Fly server has had no connections for more than two checks,
-  // shutdown gracefully.
-  if (process.env.FLY_APP_NAME && noClientCount === 2) {
-    console.log(`There are no connected clients, exiting`)
-    process.exit()
-  }
-}, 30000)
+// // If the Fly server has had no connections for more than two checks,
+// // shutdown gracefully.
+// if (process.env.FLY_APP_NAME && noClientCount === 2) {
+// console.log(`There are no connected clients, exiting`)
+// process.exit()
+// }
+// }, 30000)
 
 let port = 3000
 if (process.env.NODE_ENV === `production`) {
