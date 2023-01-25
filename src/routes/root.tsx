@@ -7,6 +7,7 @@ import { Text } from '../components'
 import EventsByDay from '../components/events-by-day'
 import { Event } from '../models/event'
 import { EventType } from '../models/event-type'
+import { timeSince } from '../time-since'
 import {
   useYjs,
   useSubscribeYjs,
@@ -76,14 +77,7 @@ function App() {
 
       let dateStr
       if (latestEvent) {
-        dateStr = new Date(latestEvent?.created_at).toLocaleDateString(
-          navigator.language,
-          {
-            hour: `2-digit`,
-            minute: `2-digit`,
-            hour12: true,
-          },
-        )
+        dateStr = timeSince(latestEvent.created_at)
       } else {
         dateStr = `never`
       }
