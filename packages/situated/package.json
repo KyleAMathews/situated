@@ -10,5 +10,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lib0": "^0.2.58",
+    "lmdb": "^2.7.3",
+    "lodash.debounce": "^4.0.8",
+    "y-protocols": "^1.0.5",
+    "yjs": "^13.5.44"
+  }
 }

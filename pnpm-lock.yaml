@@ -55,9 +55,7 @@ importers:
       fs-extra: ^11.1.0
       husky: ^8.0.3
       lib0: ^0.2.58
-      lmdb: ^2.7.3
       lodash: ^4.17.21
-      lodash.debounce: ^4.0.8
       lowdb: ^5.0.5
       lowdb-session-store: ^1.1.1
       monaco-editor: ^0.34.1
@@ -103,9 +101,7 @@ importers:
       fs-extra: 11.1.0
       husky: 8.0.3
       lib0: 0.2.60
-      lmdb: 2.7.6
       lodash: 4.17.21
-      lodash.debounce: 4.0.8
       lowdb: 5.0.5
       lowdb-session-store: 1.1.1
       react-aria: 3.22.0_biqbaboplfbrettd7655fr4n2y
@@ -157,7 +153,18 @@ importers:
       y-monaco: 0.1.4_wzghythi6jhhri3qxvek4sg7vm
 
   packages/situated:
-    specifiers: {}
+    specifiers:
+      lib0: ^0.2.58
+      lmdb: ^2.7.3
+      lodash.debounce: ^4.0.8
+      y-protocols: ^1.0.5
+      yjs: ^13.5.44
+    dependencies:
+      lib0: 0.2.60
+      lmdb: 2.7.6
+      lodash.debounce: 4.0.8
+      y-protocols: 1.0.5
+      yjs: 13.5.44
 
 packages:
 
