@@ -8,6 +8,7 @@ import EventsByDay from '../components/events-by-day'
 import { Event } from '../models/event'
 import { EventType } from '../models/event-type'
 import { timeSince } from '../time-since'
+import { foo, hi } from 'situated'
 import {
   useYjs,
   useSubscribeYjs,
@@ -18,6 +19,7 @@ import { fontStyles } from '../styles/typography.css'
 // import * as Components from '../styles/base-components'
 // import * as rootStyles from '../styles/root.css'
 import '../styles/app.css'
+console.log({ foo, hi })
 
 let eventsAsArray: Array<Event> = []
 function App() {
