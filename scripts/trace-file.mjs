@@ -28,11 +28,13 @@ async function main() {
 
   const files = [pathToFile]
   const { fileList, reasons } = await nodeFileTrace(files)
-  console.log(fileList)
+  fileList.add(`node_modules/steno`)
 
   fs.mkdirpSync(outDir)
-
-  fileList.add(`node_modules/steno`)
+  fs.writeFileSync(
+    path.join(outDir, `nft-filelist.json`),
+    JSON.stringify({ fileList: [...fileList], reasons: [...reasons] }, null, 4),
+  )
 
   // To copy a folder or file, select overwrite accordingly
   fileList.forEach((srcDirFile) => {
