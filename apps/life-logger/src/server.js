@@ -21,6 +21,7 @@ try {
 // LowDb
 import { Writer } from 'steno'
 import 'object-assign'
+// END Fixes for nft
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
