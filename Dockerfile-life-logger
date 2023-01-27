@@ -53,6 +53,7 @@ RUN cd .. \
   && cd temp \
   && npm install lmdb \
   && cp -r node_modules/* /app/node_modules/ \
+  && rm -r node_modules/* \
   && cd /app 
 
 # Ensure tsx is installed already
