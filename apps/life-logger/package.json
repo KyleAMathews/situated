@@ -27,6 +27,7 @@
     "remirror": "^2.0.23",
     "situated": "workspace:*",
     "siwe": "^1.1.6",
+    "steno": "^3.0.0",
     "use-sync-external-store": "^1.2.0",
     "usehooks-ts": "^2.9.1",
     "ws": "^8.11.0",
@@ -77,7 +78,7 @@
     "dev": "ALLOWED_ADDRESSES=0xeBCaAC47e92207cda75dd53C234815279DeD5f5C,0x1A779cb76827D7818157673b02D426A9D003658c concurrently 'vite --host' 'tsx watch --clear-screen=false src/server.js'",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "preview": "vite preview",
-    "start": "NODE_ENV=production node src/server.js"
+    "start": "NODE_ENV=production npx --yes tsx@latest src/server.js"
   },
   "type": "module"
 }

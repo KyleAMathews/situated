@@ -8,6 +8,20 @@ import { fileURLToPath } from 'url'
 import fs from 'fs-extra'
 import { setupWSConnection } from 'situated'
 
+// Fixes for nft
+// LMDB
+import { readFileSync } from 'fs'
+import { join } from 'path'
+try {
+  readFileSync(join(process.cwd(), `node_modules/lmdb/dict/dict.txt`))
+} catch (e) {
+  // ignore
+}
+
+// LowDb
+import { Writer } from 'steno'
+import 'object-assign'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -181,11 +195,11 @@ const server = app.listen(port, () => {
 
 server.on(`upgrade`, (request, socket, head) => {
   sessionParser(request, {}, () => {
-    if (!request.session?.siwe?.address) {
-      socket.write(`HTTP/1.1 401 Unauthorized\r\n\r\n`)
-      socket.destroy()
-      return
-    }
+    // if (!request.session?.siwe?.address) {
+    // socket.write(`HTTP/1.1 401 Unauthorized\r\n\r\n`)
+    // socket.destroy()
+    // return
+    // }
     wsServer.handleUpgrade(request, socket, head, (socket) => {
       console.log(`handleUpgrade`)
       wsServer.emit(`connection`, socket, request)
