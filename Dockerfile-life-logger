@@ -21,16 +21,16 @@ RUN npm install -g pnpm@7.26.0
 
 WORKDIR /app
 
-COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.json
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY .gitignore .gitignore
 COPY .npmrc .npmrc
-COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
+# Copy out src.
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/full/ .
 RUN pnpm install
 
-# Copy out src now.
-COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
 RUN pnpm run build --filter=life-logger
 
