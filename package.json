@@ -8,6 +8,7 @@
     "prepare": "husky install",
     "deploy:life-logger": "cp apps/life-logger/Dockerfile . && fly deploy --config apps/life-logger/fly.toml && rm Dockerfile",
     "deploy:table-editor": "cp apps/table-editor/Dockerfile . && fly deploy --config apps/table-editor/fly.toml && rm Dockerfile",
+    "deploy:moods": "cp apps/moods/Dockerfile . && fly deploy --config apps/moods/fly.toml && rm Dockerfile",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
