@@ -60,12 +60,12 @@ function App() {
 
   // get userId from localstorage
   const [userId, setUserId] = useLocalStorage(`userId`)
-  if (!userId) {
-    console.log(`no userId yet`)
-    React.useEffect(() => {
+
+  React.useEffect(() => {
+    if (!userId) {
       setUserId(nanoid())
-    }, [])
-  }
+    }
+  }, [userId])
 
   // Get yjs array for mood events.
   const moodEventsYjs = rootDoc.getArray(`mood-events`)
@@ -178,6 +178,7 @@ function App() {
             Share your mood!
           </h2>
           <textarea
+            readOnly
             style={{ margin: `0 auto`, display: `block` }}
             className="align-center w-72 h-72 border-dashed border-2 border-indigo-600 p-2"
             value={`My mood is ${userMood}!
@@ -193,7 +194,7 @@ ${Object.entries(moodsCount)
 How do you feel? Let everyone know at https://internet-moods.fly.dev`}
           />
         </div>
-        <div>Users online: {usersOnline}</div>
+        <div className="text-center mt-8">Users online: {usersOnline}</div>
       </div>
     </div>
   )
