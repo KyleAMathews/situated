@@ -65,7 +65,7 @@ function App() {
     if (!userId) {
       setUserId(nanoid())
     }
-  }, [userId])
+  }, [])
 
   // Get yjs array for mood events.
   const moodEventsYjs = rootDoc.getArray(`mood-events`)

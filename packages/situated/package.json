@@ -12,12 +12,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lib0": "^0.2.58",
-    "lmdb": "^2.7.3",
+    "lib0": "^0.2.62",
+    "lmdb": "^2.7.8",
     "lodash.debounce": "^4.0.8",
     "use-sync-external-store": "^1.2.0",
     "usehooks-ts": "^2.9.1",
     "y-protocols": "^1.0.5",
-    "yjs": "^13.5.44"
+    "yjs": "^13.5.45"
   }
 }
