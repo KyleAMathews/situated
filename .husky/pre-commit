@@ -4,7 +4,8 @@
 commitCount=`git rev-list --all --count`
 
 echo "VITE_COMMIT_COUNT=$commitCount" > .env
+echo "VITE_COMMIT_COUNT=$commitCount" > apps/life-logger/.env
 
-git add .env
+git add .env apps/life-logger/.env
 
 exit 0

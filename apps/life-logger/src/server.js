@@ -55,7 +55,8 @@ const sessionParser = Session({
   secret: `siwe-quickstart-secret`,
   resave: true,
   saveUninitialized: true,
-  cookie: { secure: false, sameSite: true },
+  // One Month session
+  cookie: { secure: false, sameSite: true, maxAge: 30 * 24 * 60 * 60 * 1000 },
   store: new LowdbStore({ db }),
 })
 
