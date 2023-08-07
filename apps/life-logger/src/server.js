@@ -2,11 +2,13 @@ import cors from 'cors'
 import path from 'path'
 import express from 'express'
 import { WebSocketServer } from 'ws'
-import Session from 'express-session'
-import { generateNonce, ErrorTypes, SiweMessage } from 'siwe'
 import { fileURLToPath } from 'url'
 import fs from 'fs-extra'
 import { setupWSConnection } from 'situated'
+import Session from 'express-session'
+
+// LowDb
+import { Writer } from 'steno'
 
 // Fixes for nft
 // LMDB
@@ -18,19 +20,16 @@ try {
   // ignore
 }
 
-// LowDb
-import { Writer } from 'steno'
 import 'object-assign'
-// END Fixes for nft
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 import lowdbStore from 'connect-lowdb'
 
 const LowdbStore = lowdbStore(Session)
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const baseDir =
   process.env.BASE_DATA_DIR || path.resolve(process.cwd(), `.cache`)
@@ -49,7 +48,6 @@ app.use(
     credentials: true,
   }),
 )
-
 const sessionParser = Session({
   name: `life-logger`,
   secret: `siwe-quickstart-secret`,
@@ -62,76 +60,21 @@ const sessionParser = Session({
 
 app.use(sessionParser)
 
-app.get(`/nonce`, async function (req, res) {
-  req.session.nonce = generateNonce()
-  res.setHeader(`Content-Type`, `text/plain`)
-  res.status(200).send(req.session.nonce)
-})
-
-app.post(`/verify`, async function (req, res) {
-  try {
-    if (!req.body.message) {
-      res
-        .status(422)
-        .json({ message: `Expected prepareMessage object as body.` })
-      return
-    }
-
-    const message = new SiweMessage(req.body.message)
-    const fields = await message.validate(req.body.signature)
-    console.log(`checking address`, process.env.ALLOWED_ADDRESSES, fields)
-
-    // If allowed wallet addresses is set, then validate agains that.
-    if (process.env.ALLOWED_ADDRESSES) {
-      console.log(`checking address`, process.env.ALLOWED_ADDRESSES, fields)
-      if (!process.env.ALLOWED_ADDRESSES.split(`,`).includes(fields.address)) {
-        res.status(401).json({
-          message: `Invalid wallet address`,
-        })
-        return
-      }
-    }
-
-    if (fields.nonce !== req.session.nonce) {
-      console.log(req.session)
-      res.status(422).json({
-        message: `Invalid nonce.`,
-      })
-      return
-    }
-    req.session.siwe = fields
-    req.session.cookie.expires = new Date(fields.expirationTime)
-    req.session.save(() => res.status(200).end())
-  } catch (e) {
-    req.session.siwe = null
-    req.session.nonce = null
-    console.error(e)
-    switch (e) {
-      case ErrorTypes.EXPIRED_MESSAGE: {
-        req.session.save(() => res.status(440).json({ message: e.message }))
-        break
-      }
-      case ErrorTypes.INVALID_SIGNATURE: {
-        req.session.save(() => res.status(422).json({ message: e.message }))
-        break
-      }
-      default: {
-        req.session.save(() => res.status(500).json({ message: e.message }))
-        break
-      }
-    }
+app.use(function (req, res, next) {
+  if (!req.session.loggedIn) {
+    req.session.loggedIn = false
   }
+
+  next()
 })
 
 app.get(`/personal_information`, function (req, res) {
-  if (!req.session.siwe) {
+  if (!req.session.loggedIn) {
     res.status(401).json({ message: `You have to first sign_in` })
     return
   }
   res.setHeader(`Content-Type`, `text/plain`)
-  res.send(
-    `You are authenticated and your address is: ${req.session.siwe.address}`,
-  )
+  res.send(`You are authenticated`)
 })
 
 app.get(`/logout`, function (req, res, next) {
@@ -140,8 +83,7 @@ app.get(`/logout`, function (req, res, next) {
   // clear the user from the session object and save.
   // this will ensure that re-using the old session id
   // does not have a logged in user
-  req.session.siwe = null
-  req.session.nonce = null
+  req.session.loggedIn = false
   req.session.save(function (err) {
     console.log({ err })
     if (err) next(err)
@@ -153,6 +95,22 @@ app.get(`/logout`, function (req, res, next) {
       res.send(`logged out`)
     })
   })
+})
+
+app.post(`/magic-phrase-login`, function (req, res) {
+  const input = req.body.input
+  const phrase = input.split(` `)[0]
+  const name = input.split(` `)[1]
+  console.log({ phrase, name })
+  if (
+    phrase === `my-magic-phrase-is-good` &&
+    [`Kyle`, `Shannon`].includes(name)
+  ) {
+    req.session.loggedIn = true
+    return req.session.save(() => res.json({ name, worked: true }))
+  } else {
+    return res.json({ worked: false })
+  }
 })
 
 // Serve static assets.
@@ -196,15 +154,8 @@ const server = app.listen(port, () => {
 })
 
 server.on(`upgrade`, (request, socket, head) => {
-  sessionParser(request, {}, () => {
-    // if (!request.session?.siwe?.address) {
-    // socket.write(`HTTP/1.1 401 Unauthorized\r\n\r\n`)
-    // socket.destroy()
-    // return
-    // }
-    wsServer.handleUpgrade(request, socket, head, (socket) => {
-      console.log(`handleUpgrade`)
-      wsServer.emit(`connection`, socket, request)
-    })
+  wsServer.handleUpgrade(request, socket, head, (socket) => {
+    console.log(`handleUpgrade`)
+    wsServer.emit(`connection`, socket, request)
   })
 })
