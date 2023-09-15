@@ -48,18 +48,16 @@ window.rootDoc = rootDoc
 export function SituatedProvider({ children }) {
   const [accountInfo, setAccountInfo] = useLocalStorage(`accountInfo`, {})
 
-  React.useEffect(() => {
-    return (
-      <YJSStateContext.Provider
-        value={{
-          rootDoc,
-          provider: wsProvider,
-          accountInfo,
-          setAccountInfo,
-        }}
-      >
-        {children}
-      </YJSStateContext.Provider>
-    )
-  })
+  return (
+    <YJSStateContext.Provider
+      value={{
+        rootDoc,
+        provider: wsProvider,
+        accountInfo,
+        setAccountInfo,
+      }}
+    >
+      {children}
+    </YJSStateContext.Provider>
+  )
 }
