@@ -6,18 +6,10 @@ export function useYjs() {
   return { provider, rootDoc }
 }
 
-export function useAuth() {
-  const {
-    authenticationStatus,
-    setAuthenticationStatus,
-    accountInfo,
-    setAccountInfo,
-  } = React.useContext(YJSStateContext)
+export function useAccount() {
+  const { accountInfo, setAccountInfo } = React.useContext(YJSStateContext)
 
   return {
-    authenticationStatus,
-
-    setAuthenticationStatus,
     accountInfo,
     setAccountInfo,
   }

@@ -1,6 +1,6 @@
 {
   "name": "situated",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/node.ts",
   "browser": "src/browser.ts",
