@@ -1,6 +1,6 @@
 {
   "name": "situated",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "src/node.ts",
   "browser": "src/browser.ts",
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "lib0": "^0.2.62",
