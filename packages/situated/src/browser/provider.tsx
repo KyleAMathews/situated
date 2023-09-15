@@ -6,7 +6,6 @@ import { useLocalStorage } from 'usehooks-ts'
 
 import { YJSStateContext } from './state-context'
 const port = import.meta.env.PROD ? location.port : `3000`
-const url = `${location.protocol}://${location.hostname}:${port}`
 const BACKEND_ADDR = new URL(
   `${location.protocol}//${location.hostname}:${port}`,
 ).href
@@ -26,67 +25,34 @@ const wsProvider = new WebsocketProvider(href, roomId, rootDoc, {
 })
 
 let dResolve
-const synced = new Promise((resolve) => {
-  dResolve = resolve
-})
 wsProvider.on(`synced`, () => {
   console.log(`yjs synced`)
   dResolve(true)
 })
 
-export async function loader() {
-  // const res = await fetch(`${BACKEND_ADDR}personal_information`, {
-  // credentials: `include`,
-  // })
-  // if (res.ok) {
-  return await synced
-  // } else {
-  // return null
-  // }
-}
-
 wsProvider.on(`status`, (event) => {
   console.log(`wsProvider status`, event.status) // logs "connected" or "disconnected"
 })
 
-// export const entries = rootDoc.getMap(`entries`)
 window.rootDoc = rootDoc
 
 // provider
-//
 export function SituatedProvider({ children }) {
-  const [authenticationStatus, setAuthenticationStatus] = React.useState<
-    `loading` | `authenticated` | `unauthenticated`
-  >(`loading`)
   const [accountInfo, setAccountInfo] = useLocalStorage(`accountInfo`, {})
 
   React.useEffect(() => {
-    const fetchAuthStatus = async () => {
-      const res = await fetch(`${BACKEND_ADDR}personal_information`, {
-        credentials: `include`,
-      })
-      if (!res.ok) {
-        localStorage.clear()
-        setAuthenticationStatus(`unauthenticated`)
-      } else {
-        setAuthenticationStatus(`authenticated`)
-      }
-    }
-    fetchAuthStatus()
-  }, [])
-
-  return (
-    <YJSStateContext.Provider
-      value={{
-        rootDoc,
-        provider: wsProvider,
-        authenticationStatus,
-        setAuthenticationStatus,
-        accountInfo,
-        setAccountInfo,
-      }}
-    >
-      {children}
-    </YJSStateContext.Provider>
-  )
+    return (
+      <YJSStateContext.Provider
+        value={{
+          rootDoc,
+          provider: wsProvider,
+          accountInfo,
+          setAccountInfo,
+        }}
+      >
+        {children}
+      </YJSStateContext.Provider>
+    )
+  })
 }
+
