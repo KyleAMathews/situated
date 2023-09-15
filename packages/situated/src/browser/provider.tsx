@@ -25,10 +25,18 @@ const wsProvider = new WebsocketProvider(href, roomId, rootDoc, {
 })
 
 let dResolve
+const synced = new Promise((resolve) => {
+  dResolve = resolve
+})
+
 wsProvider.on(`synced`, () => {
   console.log(`yjs synced`)
   dResolve(true)
 })
+
+export async function loader() {
+  return await synced
+}
 
 wsProvider.on(`status`, (event) => {
   console.log(`wsProvider status`, event.status) // logs "connected" or "disconnected"
@@ -55,4 +63,3 @@ export function SituatedProvider({ children }) {
     )
   })
 }
-
