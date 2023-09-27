@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Y from 'yjs'
 import { WebsocketProvider } from './y-socket-client'
 import * as awarenessProtocol from 'y-protocols/awareness.js'
-import { useLocalStorage } from 'usehooks-ts'
+// import { useLocalStorage } from 'usehooks-ts'
 
 import { YJSStateContext } from './state-context'
 const port = import.meta.env.PROD ? location.port : `3000`
@@ -46,15 +46,15 @@ window.rootDoc = rootDoc
 
 // provider
 export function SituatedProvider({ children }) {
-  const [accountInfo, setAccountInfo] = useLocalStorage(`accountInfo`, {})
+  // const [accountInfo, setAccountInfo] = useLocalStorage(`accountInfo`, {})
 
   return (
     <YJSStateContext.Provider
       value={{
         rootDoc,
         provider: wsProvider,
-        accountInfo,
-        setAccountInfo,
+        // accountInfo,
+        // setAccountInfo,
       }}
     >
       {children}
